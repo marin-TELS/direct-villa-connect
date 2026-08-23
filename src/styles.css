@@ -2,30 +2,28 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 /*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Système de design — Demeure, studio
+ * Thème sombre unique, pas de bascule clair/sombre.
+ * Site entièrement typographique : aucune image, aucune icône, aucun dégradé.
+ * Les jetons sont déclarés sur :root et exposés à Tailwind via @theme inline.
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --font-titres: "Fraunces", Georgia, serif;
+  --font-corps: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  --color-encre: var(--encre);
+  --color-encre-2: var(--encre-2);
+  --color-encre-3: var(--encre-3);
+  --color-craie: var(--craie);
+  --color-craie-2: var(--craie-2);
+  --color-craie-3: var(--craie-3);
+  --color-signal: var(--signal);
+  --color-signal-clair: var(--signal-clair);
+  --color-alerte: var(--alerte);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -45,7 +43,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -59,77 +56,67 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
+  /* Jetons Demeure */
+  --encre: #0b0b0c;
+  --encre-2: #141416;
+  --encre-3: #1c1c1f;
+  --craie: #f4f2ed;
+  --craie-2: #9a9891;
+  --craie-3: #5e5d59;
+  --filet: rgba(244, 242, 237, 0.09);
+  --filet-fort: rgba(244, 242, 237, 0.2);
+  --signal: #3e7c79;
+  --signal-clair: #6fb3af;
+  --alerte: #c1452f; /* réservé au futur diagramme, ne pas utiliser ailleurs */
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* Courbe de mouvement unique */
+  --courbe: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Alias sémantiques (composants partagés) */
+  --radius: 0;
+  --background: var(--encre);
+  --foreground: var(--craie);
+  --card: var(--encre-2);
+  --card-foreground: var(--craie);
+  --popover: var(--encre-2);
+  --popover-foreground: var(--craie);
+  --primary: var(--signal);
+  --primary-foreground: var(--encre);
+  --secondary: var(--encre-2);
+  --secondary-foreground: var(--craie);
+  --muted: var(--encre-2);
+  --muted-foreground: var(--craie-2);
+  --accent: var(--encre-3);
+  --accent-foreground: var(--craie);
+  --destructive: var(--alerte);
+  --destructive-foreground: var(--craie);
+  --border: var(--filet);
+  --input: var(--filet-fort);
+  --ring: var(--signal-clair);
+  --chart-1: var(--signal);
+  --chart-2: var(--signal-clair);
+  --chart-3: var(--craie-2);
+  --chart-4: var(--craie-3);
+  --chart-5: var(--alerte);
+  --sidebar: var(--encre);
+  --sidebar-foreground: var(--craie);
+  --sidebar-primary: var(--signal);
+  --sidebar-primary-foreground: var(--encre);
+  --sidebar-accent: var(--encre-2);
+  --sidebar-accent-foreground: var(--craie);
+  --sidebar-border: var(--filet);
+  --sidebar-ring: var(--signal-clair);
 }
 
 @layer base {
@@ -137,8 +124,510 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--encre);
+    color: var(--craie);
+    font-family: var(--font-corps);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--signal);
+    color: var(--encre);
+  }
+
+  /* Grain — bruit léger sur tout le document, donne sa matière au fond */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Échelle typographique                                               */
+/* ------------------------------------------------------------------ */
+
+.t-ouverture {
+  font-family: var(--font-titres);
+  font-weight: 400;
+  font-size: clamp(2.75rem, 7vw, 6rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144;
+  color: var(--craie);
+}
+
+.t-section {
+  font-family: var(--font-titres);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144;
+  color: var(--craie);
+}
+
+.t-bloc {
+  font-family: var(--font-titres);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--craie);
+}
+
+.t-corps {
+  font-family: var(--font-corps);
+  font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
+  line-height: 1.65;
+  color: var(--craie-2);
+  max-width: 34em; /* jamais plus de 68 caractères par ligne */
+}
+
+.t-corps-fort {
+  font-family: var(--font-corps);
+  font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
+  line-height: 1.65;
+  color: var(--craie);
+  max-width: 34em;
+}
+
+.t-libelle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--craie-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.t-mention {
+  font-family: var(--font-corps);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--craie-3);
+}
+
+/* Citation de référence : filet signal à gauche, texte craie */
+.citation {
+  border-left: 2px solid var(--signal);
+  padding-left: 24px;
+  color: var(--craie);
+}
+
+/* ------------------------------------------------------------------ */
+/* Grille — conteneur 1240px, 12 colonnes, placements asymétriques     */
+/* ------------------------------------------------------------------ */
+
+.conteneur {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.grille-12 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.grille-12 > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .conteneur {
+    padding-inline: 48px;
+  }
+
+  .grille-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+
+  .pos-bandeau {
+    grid-column: 1 / 10; /* colonnes 1 à 9 */
+  }
+
+  .pos-titre-section {
+    grid-column: 1 / 9; /* colonnes 1 à 8 */
+  }
+
+  .pos-bloc-a {
+    grid-column: 1 / 7; /* colonnes 1 à 6 */
+  }
+
+  .pos-bloc-b {
+    grid-column: 4 / 11; /* colonnes 4 à 10, décalé vers la droite */
+  }
+
+  .pos-encart {
+    grid-column: 9 / 13; /* colonnes 9 à 12 */
+    align-self: start;
+  }
+}
+
+.section-ancree {
+  scroll-margin-top: 96px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Apparition au défilement — une seule fois, jamais rejouée           */
+/* ------------------------------------------------------------------ */
+
+[data-apparition] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 650ms var(--courbe),
+    transform 650ms var(--courbe);
+}
+
+[data-apparition].est-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ------------------------------------------------------------------ */
+/* Ligne d'ouverture de section : numéro, libellé, filet               */
+/* ------------------------------------------------------------------ */
+
+.ligne-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.numero-section {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--signal-clair);
+  font-variant-numeric: tabular-nums;
+}
+
+.ligne-section .filet {
+  flex: 1;
+  height: 1px;
+  background-color: var(--filet);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 400ms var(--courbe) 150ms;
+}
+
+.ligne-section.est-visible .filet {
+  transform: scaleX(1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Navigation                                                          */
+/* ------------------------------------------------------------------ */
+
+.nav-principale {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  z-index: 50;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 300ms var(--courbe),
+    border-color 300ms var(--courbe);
+}
+
+.nav-principale.est-scrollee {
+  background-color: rgba(11, 11, 12, 0.82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--filet);
+}
+
+.logotype {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+.logotype-nom {
+  font-family: var(--font-titres);
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--craie);
+}
+
+.logotype-separateur {
+  color: var(--craie-3);
+}
+
+.logotype-qualif {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: var(--craie-3);
+}
+
+.lien-nav {
+  position: relative;
+  color: var(--craie-2);
+  transition: color 250ms var(--courbe);
+}
+
+.lien-nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 250ms var(--courbe);
+}
+
+.lien-nav:hover {
+  color: var(--craie);
+}
+
+.lien-nav:hover::after {
+  transform: scaleX(1);
+}
+
+/* Bouton menu mobile : deux traits de 18px, aucune icône importée */
+.bouton-menu {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 4px;
+}
+
+.trait-menu {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background-color: var(--craie);
+  transition: transform 250ms var(--courbe);
+}
+
+.trait-menu + .trait-menu {
+  margin-top: 5px;
+}
+
+.bouton-menu[aria-expanded="true"] .trait-menu:first-child {
+  transform: translateY(3px) rotate(45deg);
+}
+
+.bouton-menu[aria-expanded="true"] .trait-menu:last-child {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+/* Panneau plein écran */
+.panneau-mobile {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-color: var(--encre);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+  animation: apparition-panneau 300ms var(--courbe);
+}
+
+@keyframes apparition-panneau {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lien-mobile {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding-block: 24px;
+}
+
+.lien-mobile-numero {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--craie-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.lien-mobile-texte {
+  font-family: var(--font-titres);
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  color: var(--craie);
+}
+
+/* ------------------------------------------------------------------ */
+/* Boutons — seul rayon autorisé du site : 2px                         */
+/* ------------------------------------------------------------------ */
+
+.bouton-principal {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--signal);
+  color: var(--encre);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 16px 32px;
+  border-radius: 2px;
+  transition:
+    background-color 200ms var(--courbe),
+    transform 200ms var(--courbe);
+}
+
+.bouton-principal:hover {
+  background-color: var(--signal-clair);
+  transform: translateY(-2px);
+}
+
+.bouton-contour {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid var(--filet-fort);
+  color: var(--craie);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 12px 22px;
+  border-radius: 2px;
+  transition:
+    border-color 200ms var(--courbe),
+    color 200ms var(--courbe);
+}
+
+.bouton-contour:hover {
+  border-color: var(--signal);
+  color: var(--signal-clair);
+}
+
+/* ------------------------------------------------------------------ */
+/* Bandeau d'ouverture                                                 */
+/* ------------------------------------------------------------------ */
+
+.bandeau {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding-top: 96px;
+  padding-bottom: 140px;
+  border-bottom: 1px solid var(--filet); /* filet pleine largeur de fenêtre */
+}
+
+.bandeau-grille {
+  width: 100%;
+}
+
+.bandeau-intro {
+  margin-top: 32px;
+  max-width: 30em;
+}
+
+.indice-defilement {
+  position: absolute;
+  bottom: 40px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.filet-vertical {
+  width: 1px;
+  height: 24px;
+  background-color: var(--filet);
+}
+
+.texte-indice {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--craie-3);
+}
+
+@media (min-width: 768px) {
+  .indice-defilement {
+    left: 48px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Encarts et blocs — plans distingués par fond et filets, pas d'ombre */
+/* ------------------------------------------------------------------ */
+
+.encart {
+  background-color: var(--encre-2);
+  border: 1px solid var(--filet);
+  padding: 28px;
+}
+
+.bloc-survol {
+  transition:
+    background-color 200ms var(--courbe),
+    transform 200ms var(--courbe);
+}
+
+.bloc-survol:hover {
+  background-color: var(--encre-3);
+  transform: translateY(-2px);
+}
+
+.pile-texte > * + * {
+  margin-top: 28px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Mouvement réduit : tout visible à l'état final, rien ne bouge       */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  [data-apparition] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .ligne-section .filet {
+    transform: none !important;
   }
 }

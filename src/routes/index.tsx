@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Navigation } from "../components/Navigation";
 import { BandeauOuverture } from "../components/BandeauOuverture";
 import { SectionPourquoi } from "../components/SectionPourquoi";
+import { SectionDiagramme } from "../components/SectionDiagramme";
 
 export const Route = createFileRoute("/")({
   head: () => ({

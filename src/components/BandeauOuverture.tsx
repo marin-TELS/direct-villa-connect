@@ -24,9 +24,12 @@ export function BandeauOuverture() {
             Nous construisons le canal qui vous rend les deux.
           </p>
           <div className="mt-12" data-apparition>
-            <a href="#diagramme" className="bouton-principal">
-              Voir ce que cela représente
-            </a>
+              <a
+                href="#diagramme"
+                className="bouton-principal inline-flex items-center"
+              >
+                Voir ce que cela représente
+              </a>
           </div>
         </div>
       </div>

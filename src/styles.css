@@ -405,11 +405,10 @@
   transform: scaleX(1);
 }
 
-/* Bouton menu mobile : deux traits de 18px, aucune icône importée */
+/* Bouton menu mobile : deux traits de 18px, aucune icône importée.
+   Le display reste dans le JSX (inline-flex lg:hidden) pour que
+   l'utilitaire lg:hidden puisse masquer le bouton au-dessus de 1024px. */
 .bouton-menu {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 10px 4px;
 }
 
@@ -483,9 +482,9 @@
 /* Boutons — seul rayon autorisé du site : 2px                         */
 /* ------------------------------------------------------------------ */
 
+/* NB : le display est géré par les utilitaires Tailwind dans le JSX —
+   ne pas le remettre ici, il écraserait hidden / lg:inline-flex. */
 .bouton-principal {
-  display: inline-flex;
-  align-items: center;
   background-color: var(--signal);
   color: var(--encre);
   font-family: var(--font-mono);
@@ -506,8 +505,6 @@
 }
 
 .bouton-contour {
-  display: inline-flex;
-  align-items: center;
   background-color: transparent;
   border: 1px solid var(--filet-fort);
   color: var(--craie);

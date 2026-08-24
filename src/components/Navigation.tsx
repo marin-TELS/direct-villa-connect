@@ -40,7 +40,7 @@ export function Navigation() {
         >
           <a href="#haut" className="logotype">
             <span className="logotype-nom">Demeure</span>
-            <span className="logotype-separateur"> — </span>
+            <span className="logotype-separateur">{" — "}</span>
             <span className="logotype-qualif">studio</span>
           </a>
 
@@ -53,12 +53,15 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center">
-            <a href="#contact" className="bouton-contour hidden lg:inline-flex">
+            <a
+              href="#contact"
+              className="bouton-contour hidden items-center lg:inline-flex"
+            >
               Nous écrire
             </a>
             <button
               type="button"
-              className="bouton-menu lg:hidden"
+              className="bouton-menu inline-flex flex-col justify-center lg:hidden"
               aria-expanded={menuOuvert}
               aria-label={menuOuvert ? "Fermer le menu" : "Ouvrir le menu"}
               onClick={() => setMenuOuvert((ouvert) => !ouvert)}

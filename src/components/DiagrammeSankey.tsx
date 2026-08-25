@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type CSSProperties } from "react";
 
 import {
   calculerDisposition,
@@ -19,6 +19,7 @@ interface DiagrammeSankeyProps {
   postes: PosteSankey[];
   estVisible: boolean; // déclenche l'animation d'entrée, une seule fois
   formatMontant: (v: number) => string;
+  formatPart: (v: number) => string;
 }
 
 const COULEURS: Record<string, string> = {
@@ -30,6 +31,16 @@ const COULEURS: Record<string, string> = {
 
 const couleurPoste = "var(--craie-3)";
 
+/** Les propriétés géométriques SVG passées en style pour être animables. */
+function styleNoeud(noeud: NoeudSankey): CSSProperties {
+  return {
+    x: noeud.x,
+    y: noeud.y,
+    width: noeud.largeur,
+    height: noeud.hauteur,
+  } as CSSProperties;
+}
+
 export function DiagrammeSankey({
   revenus,
   commission,
@@ -38,8 +49,11 @@ export function DiagrammeSankey({
   postes,
   estVisible,
   formatMontant,
+  formatPart,
 }: DiagrammeSankeyProps) {
   const [survol, setSurvol] = useState<string | null>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const refConteneur = useRef<HTMLDivElement>(null);
 
   const disposition = useMemo(
     () =>
@@ -55,10 +69,26 @@ export function DiagrammeSankey({
 
   const noeuds: { noeud: NoeudSankey; couleur: string; interactive: boolean }[] =
     [
-      { noeud: disposition.noeudRevenus, couleur: COULEURS.revenus, interactive: false },
-      { noeud: disposition.noeudCommission, couleur: COULEURS.commission, interactive: true },
-      { noeud: disposition.noeudCharges, couleur: COULEURS.charges, interactive: true },
-      { noeud: disposition.noeudReste, couleur: COULEURS.reste, interactive: true },
+      {
+        noeud: disposition.noeudRevenus,
+        couleur: COULEURS.revenus,
+        interactive: true,
+      },
+      {
+        noeud: disposition.noeudCommission,
+        couleur: COULEURS.commission,
+        interactive: true,
+      },
+      {
+        noeud: disposition.noeudCharges,
+        couleur: COULEURS.charges,
+        interactive: true,
+      },
+      {
+        noeud: disposition.noeudReste,
+        couleur: COULEURS.reste,
+        interactive: true,
+      },
       ...disposition.noeudsPostes.map((n) => ({
         noeud: n,
         couleur: couleurPoste,
@@ -108,7 +138,7 @@ export function DiagrammeSankey({
     },
     {
       cle: "reste",
-      nom: "Ce qu’il vous reste",
+      nom: "Résultat d’exploitation",
       montant: reste,
       cote: "milieu",
       fort: true,
@@ -124,11 +154,34 @@ export function DiagrammeSankey({
     })),
   ];
 
+  const parCle = new Map(libelles.map((l) => [l.cle, l]));
+  const survole = survol ? parCle.get(survol) : undefined;
+
+  const suivrePointeur = (evenement: {
+    clientX: number;
+    clientY: number;
+  }) => {
+    const cadre = refConteneur.current?.getBoundingClientRect();
+    if (!cadre) return;
+    setPosition({
+      x: evenement.clientX - cadre.left,
+      y: evenement.clientY - cadre.top,
+    });
+  };
+
+  const entrer = (cle: string) => setSurvol(cle);
+  const sortir = () => setSurvol(null);
+
   return (
     <div
-      className={`sankey-conteneur${estVisible ? " est-visible" : ""}`}
+      ref={refConteneur}
+      className={`sankey-conteneur${estVisible ? " est-visible" : ""}${
+        survol ? " a-survol" : ""
+      }`}
+      onMouseMove={suivrePointeur}
+      onMouseLeave={sortir}
       role="img"
-      aria-label={`Diagramme des flux : ${formatMontant(revenus)} de revenus, dont ${formatMontant(commission)} de commission, ${formatMontant(totalCharges)} de charges et ${formatMontant(reste)} de résultat.`}
+      aria-label={`Diagramme des flux : ${formatMontant(revenus)} de revenus, dont ${formatMontant(commission)} de commission, ${formatMontant(totalCharges)} de charges et ${formatMontant(reste)} de résultat d’exploitation.`}
     >
       <svg
         viewBox="0 0 1000 520"
@@ -147,26 +200,23 @@ export function DiagrammeSankey({
               key={f.cle}
               d={f.d}
               fill={f.couleur}
-              className="flux-sankey"
-              style={{ fillOpacity: survol === f.cle ? 0.45 : 0.22 }}
-              onMouseEnter={() => setSurvol(f.cle)}
-              onMouseLeave={() => setSurvol(null)}
+              className={`flux-sankey${survol === f.cle ? " est-survole" : ""}`}
+              style={{ d: `path("${f.d}")` } as CSSProperties}
+              onMouseEnter={() => entrer(f.cle)}
             />
           ))}
         </g>
         {noeuds.map(({ noeud, couleur, interactive }) => (
           <rect
             key={noeud.cle}
-            className="noeud-sankey"
+            className={`noeud-sankey${survol === noeud.cle ? " est-survole" : ""}`}
             x={noeud.x}
             y={noeud.y}
             width={noeud.largeur}
             height={noeud.hauteur}
+            style={styleNoeud(noeud)}
             fill={couleur}
-            onMouseEnter={
-              interactive ? () => setSurvol(noeud.cle) : undefined
-            }
-            onMouseLeave={interactive ? () => setSurvol(null) : undefined}
+            onMouseEnter={interactive ? () => entrer(noeud.cle) : undefined}
           />
         ))}
       </svg>
@@ -183,6 +233,24 @@ export function DiagrammeSankey({
           <span className="libelle-montant">{formatMontant(l.montant)}</span>
         </div>
       ))}
+
+      {survole ? (
+        <div
+          className="infobulle-sankey"
+          style={{ left: position.x, top: position.y }}
+          aria-hidden="true"
+        >
+          <span className="infobulle-nom">{survole.nom}</span>
+          <span className="infobulle-montant">
+            {formatMontant(survole.montant)}
+          </span>
+          <span className="infobulle-part">
+            {revenus > 0
+              ? `${formatPart((survole.montant / revenus) * 100)} % des revenus`
+              : "Part indéterminée"}
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 }

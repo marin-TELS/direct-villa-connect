@@ -18,27 +18,20 @@ export function SectionDiagramme() {
           <p className="t-corps-fort pos-chapo mt-6" data-apparition>
             On parle toujours de la commission en pourcentage du chiffre
             d’affaires. C’est la façon la plus flatteuse de la présenter.
-            Regardez-la en pourcentage de ce qu’il vous reste.
+            Rapportez-la à ce qui vous reste vraiment en fin d’année : votre
+            résultat d’exploitation.
           </p>
         </div>
 
         <Calculateur />
 
         <div className="grille-12 mt-16 md:mt-20">
-          <div className="pos-chapo pile-mentions" data-apparition>
-            <p className="t-mention">
-              Sur Airbnb en frais partagés comme sur Abritel, le voyageur paie
-              des frais que vous ne voyez pas. Il paie 100, vous en recevez
-              environ 80. En direct, il paie 100 et vous recevez 100 — ou vous
-              lui en rendez une partie, et vous devenez moins cher que la
-              plateforme.
-            </p>
-            <p className="t-mention">
-              Exemple illustratif. Les charges varient selon le bien, la région
-              et le mode d’exploitation. Modifiez les valeurs pour voir votre
-              situation.
-            </p>
-          </div>
+          <p className="pos-chapo t-mention" data-apparition>
+            Résultat d’exploitation s’entend avant charges financières et avant
+            impôt. Exemple illustratif : les charges varient selon le bien, la
+            région et le mode d’exploitation. Vos chiffres restent dans votre
+            navigateur, rien n’est envoyé.
+          </p>
         </div>
       </div>
     </section>

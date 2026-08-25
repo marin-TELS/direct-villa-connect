@@ -44,17 +44,16 @@ const CHARGES_DEFAUT: Charge[] = [
 const CANAUX: Canal[] = [
   {
     cle: "airbnb_hote",
-    libelle: "Airbnb — frais hôte",
+    libelle: "Airbnb, frais hôte",
     taux: 15.5,
-    mention:
-      "15,5 % HT côté hôte. 18,6 % TTC si vous ne récupérez pas la TVA.",
+    mention: "15,5 % HT côté hôte. 18,6 % TTC si vous ne récupérez pas la TVA.",
   },
   {
     cle: "airbnb_partage",
-    libelle: "Airbnb — frais partagés",
+    libelle: "Airbnb, frais partagés",
     taux: 3,
     mention:
-      "3 % HT côté hôte, mais votre voyageur paie en plus 14,1 à 16,5 %. Modèle en extinction.",
+      "3 % HT côté hôte, mais votre voyageur paie en plus 14,1 à 16,5 %. Modèle supprimé dans l’Espace économique européen le 13 octobre 2026.",
   },
   {
     cle: "booking",
@@ -87,6 +86,10 @@ const formatMontant = new Intl.NumberFormat("fr-FR", {
 
 const formatPourcent = new Intl.NumberFormat("fr-FR", {
   maximumFractionDigits: 1,
+});
+
+const formatNombre = new Intl.NumberFormat("fr-FR", {
+  maximumFractionDigits: 0,
 });
 
 /** Une décimale seulement si elle est significative : « 24,4 » mais « 24 ». */
@@ -164,7 +167,12 @@ function ChampNombre({
   );
 }
 
+/*
+ * Tout le calcul se fait dans le navigateur : aucune requête réseau,
+ * aucune donnée envoyée ni enregistrée.
+ */
 export function Calculateur() {
+  const [panneauOuvert, setPanneauOuvert] = useState(false);
   const [prixNuit, setPrixNuit] = useState(PRIX_NUIT_DEFAUT);
   const [nuitsLouees, setNuitsLouees] = useState(NUITS_DEFAUT);
   const [canal, setCanal] = useState<CleCanal>("airbnb_hote");
@@ -201,8 +209,7 @@ export function Calculateur() {
   const totalCharges = charges.reduce((s, c) => s + c.montant, 0);
   const resultat = revenus - commission - totalCharges;
   // Jamais de division par zéro : pas de pourcentage si résultat nul ou négatif
-  const partDuResultat =
-    resultat > 0 ? (commission / resultat) * 100 : null;
+  const partDuResultat = resultat > 0 ? (commission / resultat) * 100 : null;
 
   const retablirExemple = () => {
     setPrixNuit(PRIX_NUIT_DEFAUT);
@@ -210,6 +217,7 @@ export function Calculateur() {
     setCanal("airbnb_hote");
     setTauxConciergerie(TAUX_CONCIERGERIE_DEFAUT);
     setCharges(CHARGES_DEFAUT.map((c) => ({ ...c })));
+    setPanneauOuvert(false);
   };
 
   const majCharge = (index: number, montant: number) =>
@@ -221,192 +229,222 @@ export function Calculateur() {
 
   // Version mobile : liste de barres proportionnelles aux revenus
   const postesMobile = [
-    { cle: "commission", nom: "Commission", montant: commission, couleur: "var(--alerte)" },
+    {
+      cle: "commission",
+      nom: "Commission",
+      montant: commission,
+      couleur: "var(--alerte)",
+    },
     ...charges.map((c) => ({
       cle: c.cle,
       nom: c.libelle,
       montant: c.montant,
       couleur: "var(--craie-3)",
     })),
-    { cle: "reste", nom: "Ce qu’il vous reste", montant: Math.max(0, resultat), couleur: "var(--signal)" },
+    {
+      cle: "reste",
+      nom: "Résultat d’exploitation",
+      montant: Math.max(0, resultat),
+      couleur: "var(--signal)",
+    },
   ];
 
   return (
-    <div ref={refZone} className="grille-12 mt-12 md:mt-16" data-apparition>
-      <div className="pos-diagramme">
-        <div
-          className="selecteur-canal"
-          role="tablist"
-          aria-label="Canal de réservation"
-        >
-          {CANAUX.map((c) => (
-            <button
-              key={c.cle}
-              type="button"
-              role="tab"
-              aria-selected={canal === c.cle}
-              className={`onglet-canal${canal === c.cle ? " est-actif" : ""}`}
-              onClick={() => setCanal(c.cle)}
-            >
-              {c.libelle}
-            </button>
-          ))}
-        </div>
+    <div ref={refZone} className="grille-12 mt-10 md:mt-12" data-apparition>
+      <p className="pos-chapo t-libelle ligne-contexte">
+        Villa à {formatNombre.format(prixNuit)} € la nuit,{" "}
+        {formatNombre.format(nuitsLouees)} nuits louées, commissionnée à{" "}
+        {formaterPourcentage(tauxCommission)} %.
+      </p>
 
-        {canal === "conciergerie" ? (
-          <div className="mt-6">
-            <label htmlFor="curseur-conciergerie" className="t-libelle">
-              Votre taux de conciergerie
-            </label>
-            <div className="curseur-ligne mt-4">
-              <input
-                id="curseur-conciergerie"
-                type="range"
-                min={15}
-                max={30}
-                step={1}
-                value={tauxConciergerie}
-                onChange={(e) => setTauxConciergerie(Number(e.target.value))}
-                className="curseur-taux"
-                style={
-                  { "--progression": `${progressionCurseur}%` } as CSSProperties
-                }
-              />
-              <span className="curseur-valeur">{tauxConciergerie} %</span>
-            </div>
-            <p className="t-mention mt-4">{canalActif.mention}</p>
-          </div>
-        ) : (
-          <p className="t-mention mt-4">{canalActif.mention}</p>
-        )}
-
-        {canal === "airbnb_hote" && (
-          <div className="encart-octobre mt-6">
-            <p className="t-libelle">13 octobre 2026</p>
-            <p className="t-mention mt-3">
-              Les annonces Airbnb de l’Espace économique européen basculent vers
-              un modèle où la commission est intégralement supportée par l’hôte.
-              Si vous êtes encore en frais partagés, votre taux passera de 3 %
-              à 15,5 %.
-            </p>
-          </div>
-        )}
-
-        <div className="mt-10 hidden md:block">
-          <DiagrammeSankey
-            revenus={revenus}
-            commission={commission}
-            totalCharges={totalCharges}
-            reste={Math.max(0, resultat)}
-            postes={charges}
-            estVisible={estVisible}
-            formatMontant={(v) => formatMontant.format(Math.round(v))}
-          />
-        </div>
-
-        <div
-          className={`sankey-mobile mt-10 md:hidden${estVisible ? " est-visible" : ""}`}
-        >
-          {postesMobile.map((p) => {
-            const largeur =
-              revenus > 0 ? Math.min(100, (p.montant / revenus) * 100) : 0;
-            return (
-              <div key={p.cle} className="barre-poste">
-                <div className="barre-poste-ligne">
-                  <span className="barre-poste-nom">{p.nom}</span>
-                  <span className="barre-poste-montant">
-                    {formatMontant.format(Math.round(p.montant))}
-                  </span>
-                </div>
-                <div className="barre-poste-piste">
-                  <div
-                    className="barre-poste-remplissage"
-                    style={
-                      {
-                        "--cible": `${largeur}%`,
-                        backgroundColor: p.couleur,
-                      } as CSSProperties
-                    }
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="phrase-resultat">
-          {partDuResultat === null ? (
-            <p>Le résultat est nul ou négatif avec ces valeurs.</p>
-          ) : (
-            <>
-              <p>
-                Cette commission représente{" "}
-                <NombreAnime
-                  valeur={`${formaterPourcentage(tauxCommission)} %`}
-                />{" "}
-                de vos revenus.
-              </p>
-              <p>
-                Elle représente{" "}
-                <NombreAnime
-                  alerte
-                  valeur={`${formaterPourcentage(partDuResultat)} %`}
-                />{" "}
-                de votre résultat.
-              </p>
-            </>
-          )}
-        </div>
-
-        <p className="t-corps mt-6">
-          Reprendre ne serait-ce qu’une partie de ce canal augmente votre
-          résultat sans louer une nuit de plus.
-        </p>
+      <div className="pos-pleine mt-10 hidden md:block">
+        <DiagrammeSankey
+          revenus={revenus}
+          commission={commission}
+          totalCharges={totalCharges}
+          reste={Math.max(0, resultat)}
+          postes={charges}
+          estVisible={estVisible}
+          formatMontant={(v) => formatMontant.format(Math.round(v))}
+          formatPart={formaterPourcentage}
+        />
       </div>
 
-      <aside className="pos-encart mt-12 md:mt-0">
-        <div className="bloc-entrees">
-          <p className="t-libelle">Vos chiffres</p>
-          <div className="mt-4">
-            <ChampNombre
-              id="champ-prix-nuit"
-              libelle="Prix moyen par nuit"
-              valeur={prixNuit}
-              suffixe="€"
-              onChange={setPrixNuit}
-            />
-            <ChampNombre
-              id="champ-nuits"
-              libelle="Nuits louées par an"
-              valeur={nuitsLouees}
-              onChange={setNuitsLouees}
-            />
-            {charges.map((charge, index) => (
-              <ChampNombre
-                key={charge.cle}
-                id={`champ-${charge.cle}`}
-                libelle={charge.libelle}
-                valeur={charge.montant}
-                suffixe="€"
-                onChange={(v) => majCharge(index, v)}
-              />
-            ))}
-          </div>
-          <div className="ligne-total">
-            <span className="t-mention">Total des charges</span>
-            <span className="montant-total">
-              {formatMontant.format(totalCharges)}
-            </span>
-          </div>
+      <div
+        className={`pos-pleine sankey-mobile mt-10 md:hidden${estVisible ? " est-visible" : ""}`}
+      >
+        {postesMobile.map((p) => {
+          const largeur =
+            revenus > 0 ? Math.min(100, (p.montant / revenus) * 100) : 0;
+          return (
+            <div key={p.cle} className="barre-poste">
+              <div className="barre-poste-ligne">
+                <span className="barre-poste-nom">{p.nom}</span>
+                <span className="barre-poste-montant">
+                  {formatMontant.format(Math.round(p.montant))}
+                </span>
+              </div>
+              <div className="barre-poste-piste">
+                <div
+                  className="barre-poste-remplissage"
+                  style={
+                    {
+                      "--cible": `${largeur}%`,
+                      backgroundColor: p.couleur,
+                    } as CSSProperties
+                  }
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="pos-bloc-b phrase-resultat">
+        {partDuResultat === null ? (
+          <p>Le résultat est nul ou négatif avec ces valeurs.</p>
+        ) : (
+          <>
+            <p>
+              Cette commission représente{" "}
+              <NombreAnime
+                valeur={`${formaterPourcentage(tauxCommission)} %`}
+              />{" "}
+              de vos revenus.
+            </p>
+            <p>
+              Elle représente{" "}
+              <NombreAnime
+                alerte
+                valeur={`${formaterPourcentage(partDuResultat)} %`}
+              />{" "}
+              de votre résultat d’exploitation.
+            </p>
+          </>
+        )}
+      </div>
+
+      <p className="pos-bloc-b t-corps-fort mt-8">
+        Reprendre ne serait-ce qu’une partie de ce canal augmente votre résultat
+        sans louer une nuit de plus, et sans rien changer à votre maison.
+      </p>
+
+      {!panneauOuvert ? (
+        <div className="pos-bloc-b mt-10">
+          <button
+            type="button"
+            className="bouton-contour inline-flex items-center"
+            onClick={() => setPanneauOuvert(true)}
+          >
+            Utiliser mes propres chiffres
+          </button>
         </div>
-        <button
-          type="button"
-          className="lien-retablir mt-4"
-          onClick={retablirExemple}
-        >
-          Rétablir l’exemple
-        </button>
-      </aside>
+      ) : (
+        <div className="pos-pleine panneau-saisie mt-10">
+          <div className="panneau-grille">
+            <div className="panneau-partie">
+              <p className="t-libelle">Votre canal</p>
+              <div
+                className="selecteur-canal mt-5"
+                role="radiogroup"
+                aria-label="Votre canal"
+              >
+                {CANAUX.map((c) => (
+                  <button
+                    key={c.cle}
+                    type="button"
+                    role="radio"
+                    aria-checked={canal === c.cle}
+                    className={`onglet-canal${canal === c.cle ? " est-actif" : ""}`}
+                    onClick={() => setCanal(c.cle)}
+                  >
+                    {c.libelle}
+                  </button>
+                ))}
+              </div>
+
+              {canal === "conciergerie" ? (
+                <div className="mt-6">
+                  <label htmlFor="curseur-conciergerie" className="t-libelle">
+                    Votre taux de conciergerie
+                  </label>
+                  <div className="curseur-ligne mt-4">
+                    <input
+                      id="curseur-conciergerie"
+                      type="range"
+                      min={15}
+                      max={30}
+                      step={1}
+                      value={tauxConciergerie}
+                      onChange={(e) =>
+                        setTauxConciergerie(Number(e.target.value))
+                      }
+                      className="curseur-taux"
+                      style={
+                        {
+                          "--progression": `${progressionCurseur}%`,
+                        } as CSSProperties
+                      }
+                    />
+                    <span className="curseur-valeur">{tauxConciergerie} %</span>
+                  </div>
+                </div>
+              ) : null}
+
+              <p className="t-mention mt-5">{canalActif.mention}</p>
+            </div>
+
+            <div className="panneau-partie">
+              <p className="t-libelle">Vos revenus</p>
+              <div className="mt-5">
+                <ChampNombre
+                  id="champ-prix-nuit"
+                  libelle="Prix moyen par nuit"
+                  valeur={prixNuit}
+                  suffixe="€"
+                  onChange={setPrixNuit}
+                />
+                <ChampNombre
+                  id="champ-nuits"
+                  libelle="Nuits louées par an"
+                  valeur={nuitsLouees}
+                  onChange={setNuitsLouees}
+                />
+              </div>
+            </div>
+
+            <div className="panneau-partie">
+              <p className="t-libelle">Vos charges</p>
+              <div className="mt-5">
+                {charges.map((charge, index) => (
+                  <ChampNombre
+                    key={charge.cle}
+                    id={`champ-${charge.cle}`}
+                    libelle={charge.libelle}
+                    valeur={charge.montant}
+                    suffixe="€"
+                    onChange={(v) => majCharge(index, v)}
+                  />
+                ))}
+              </div>
+              <div className="ligne-total">
+                <span className="t-mention">Total des charges</span>
+                <span className="montant-total">
+                  {formatMontant.format(totalCharges)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="lien-retablir mt-6"
+            onClick={retablirExemple}
+          >
+            Revenir à l’exemple
+          </button>
+        </div>
+      )}
     </div>
   );
 }

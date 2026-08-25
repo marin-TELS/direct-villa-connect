@@ -26,12 +26,15 @@ export function SectionPourquoi() {
             </p>
             <p className="t-corps">
               Ces règles peuvent changer sans que vous soyez consulté. Elles ont
-              déjà changé. Un canal que vous ne contrôlez pas est un canal qui
-              peut se refermer.
+              déjà changé, et elles changent encore cette année. Ce n’est pas un
+              procès des plateformes : elles vous apportent des voyageurs, et
+              elles font payer ce service. C’est un constat : un canal dont vous
+              n’écrivez pas les règles peut se refermer, ou se renchérir, sans
+              vous demander votre avis.
             </p>
           </div>
 
-          <div className="pos-bloc-b pile-texte mt-30" data-apparition>
+          <div className="pos-bloc-b pile-texte mt-16 md:mt-30" data-apparition>
             <h3 className="t-bloc">
               Vous les accueillez, puis la porte se referme
             </h3>
@@ -55,24 +58,10 @@ export function SectionPourquoi() {
               fermé.
             </p>
             <p className="t-corps">
-              Dix ans d’accueil, et aucun fichier client. Non par négligence —
-              parce que le constituer vous est interdit.
+              Des années d’accueil, et aucun fichier client. Non par négligence :
+              le constituer vous est interdit.
             </p>
           </div>
-
-          <aside
-            className="pos-encart encart bloc-survol mt-8"
-            data-apparition
-          >
-            <p className="t-libelle">La nuance</p>
-            <p className="t-mention mt-4">
-              Sur une villa familiale, un locataire revient rarement. Mais il en
-              connaît d’autres qui louent au même niveau. Ce que vous perdez
-              n’est pas un client qui revient, c’est le réseau qu’il représente.
-              Sur un séminaire d’entreprise, en revanche, c’est bien le client
-              qui revient — chaque année.
-            </p>
-          </aside>
         </div>
       </div>
     </section>

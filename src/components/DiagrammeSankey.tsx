@@ -22,11 +22,16 @@ interface DiagrammeSankeyProps {
   formatPart: (v: number) => string;
 }
 
+const COULEUR_REVENUS = "var(--signal)";
+const COULEUR_COMMISSION = "var(--alerte)"; // seul emploi du rouge dans tout le site
+const COULEUR_CHARGES = "var(--craie-3)";
+const COULEUR_RESTE = "var(--signal)";
+
 const COULEURS: Record<string, string> = {
-  revenus: "var(--signal)",
-  commission: "var(--alerte)", // seul emploi du rouge dans tout le site
-  charges: "var(--craie-3)",
-  reste: "var(--signal)",
+  revenus: COULEUR_REVENUS,
+  commission: COULEUR_COMMISSION,
+  charges: COULEUR_CHARGES,
+  reste: COULEUR_RESTE,
 };
 
 const couleurPoste = "var(--craie-3)";
@@ -71,22 +76,22 @@ export function DiagrammeSankey({
     [
       {
         noeud: disposition.noeudRevenus,
-        couleur: COULEURS.revenus,
+        couleur: COULEUR_REVENUS,
         interactive: true,
       },
       {
         noeud: disposition.noeudCommission,
-        couleur: COULEURS.commission,
+        couleur: COULEUR_COMMISSION,
         interactive: true,
       },
       {
         noeud: disposition.noeudCharges,
-        couleur: COULEURS.charges,
+        couleur: COULEUR_CHARGES,
         interactive: true,
       },
       {
         noeud: disposition.noeudReste,
-        couleur: COULEURS.reste,
+        couleur: COULEUR_RESTE,
         interactive: true,
       },
       ...disposition.noeudsPostes.map((n) => ({
@@ -99,7 +104,7 @@ export function DiagrammeSankey({
   const flux = [
     ...disposition.fluxPrincipaux.map((f) => ({
       ...f,
-      couleur: COULEURS[f.cle],
+      couleur: COULEURS[f.cle] ?? couleurPoste,
     })),
     ...disposition.fluxPostes.map((f) => ({ ...f, couleur: couleurPoste })),
   ];
@@ -144,14 +149,20 @@ export function DiagrammeSankey({
       fort: true,
       noeud: disposition.noeudReste,
     },
-    ...postes.map((p, index) => ({
-      cle: `poste-${index}`,
-      nom: p.libelle,
-      montant: p.montant,
-      cote: "droite" as const,
-      fort: false,
-      noeud: disposition.noeudsPostes[index],
-    })),
+    ...postes.flatMap((p, index) => {
+      const noeud = disposition.noeudsPostes[index];
+      if (!noeud) return [];
+      return [
+        {
+          cle: `poste-${index}`,
+          nom: p.libelle,
+          montant: p.montant,
+          cote: "droite" as const,
+          fort: false,
+          noeud,
+        },
+      ];
+    }),
   ];
 
   const parCle = new Map(libelles.map((l) => [l.cle, l]));

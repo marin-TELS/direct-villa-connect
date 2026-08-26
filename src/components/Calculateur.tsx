@@ -200,7 +200,7 @@ export function Calculateur() {
     return () => observateur.disconnect();
   }, []);
 
-  const canalActif = CANAUX.find((c) => c.cle === canal) ?? CANAUX[0];
+  const canalActif = CANAUX.find((c) => c.cle === canal) ?? CANAUX[0]!;
   const tauxCommission =
     canal === "conciergerie" ? tauxConciergerie : (canalActif.taux ?? 0);
 

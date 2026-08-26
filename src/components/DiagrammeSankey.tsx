@@ -149,14 +149,20 @@ export function DiagrammeSankey({
       fort: true,
       noeud: disposition.noeudReste,
     },
-    ...postes.map((p, index) => ({
-      cle: `poste-${index}`,
-      nom: p.libelle,
-      montant: p.montant,
-      cote: "droite" as const,
-      fort: false,
-      noeud: disposition.noeudsPostes[index],
-    })),
+    ...postes.flatMap((p, index) => {
+      const noeud = disposition.noeudsPostes[index];
+      if (!noeud) return [];
+      return [
+        {
+          cle: `poste-${index}`,
+          nom: p.libelle,
+          montant: p.montant,
+          cote: "droite" as const,
+          fort: false,
+          noeud,
+        },
+      ];
+    }),
   ];
 
   const parCle = new Map(libelles.map((l) => [l.cle, l]));

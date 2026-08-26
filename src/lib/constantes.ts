@@ -4,7 +4,11 @@
  * Valeur provisoire (aperçu du projet) en attendant l'adresse définitive.
  */
 export const URL_DEMONSTRATION =
-  "https://id-preview--6686020f-3da7-4c03-a058-e6ea6b9eaa2b.lovable.app";
+  "https://id-preview--0db83011-6ac5-481a-bfc1-f44e26476de9.lovable.app/admin";
 
-/** Adresse de contact affichée au pied de page. */
-export const EMAIL_CONTACT = "bonjour@demeure.studio";
+/**
+ * Adresse de contact affichée au pied de page.
+ * Vide tant que l'adresse définitive n'est pas connue : le pied de page
+ * n'affiche alors aucun email.
+ */
+export const EMAIL_CONTACT = "";

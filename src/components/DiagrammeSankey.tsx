@@ -22,11 +22,16 @@ interface DiagrammeSankeyProps {
   formatPart: (v: number) => string;
 }
 
+const COULEUR_REVENUS = "var(--signal)";
+const COULEUR_COMMISSION = "var(--alerte)"; // seul emploi du rouge dans tout le site
+const COULEUR_CHARGES = "var(--craie-3)";
+const COULEUR_RESTE = "var(--signal)";
+
 const COULEURS: Record<string, string> = {
-  revenus: "var(--signal)",
-  commission: "var(--alerte)", // seul emploi du rouge dans tout le site
-  charges: "var(--craie-3)",
-  reste: "var(--signal)",
+  revenus: COULEUR_REVENUS,
+  commission: COULEUR_COMMISSION,
+  charges: COULEUR_CHARGES,
+  reste: COULEUR_RESTE,
 };
 
 const couleurPoste = "var(--craie-3)";

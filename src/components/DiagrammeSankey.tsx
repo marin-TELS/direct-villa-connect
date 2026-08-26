@@ -76,22 +76,22 @@ export function DiagrammeSankey({
     [
       {
         noeud: disposition.noeudRevenus,
-        couleur: COULEURS.revenus,
+        couleur: COULEUR_REVENUS,
         interactive: true,
       },
       {
         noeud: disposition.noeudCommission,
-        couleur: COULEURS.commission,
+        couleur: COULEUR_COMMISSION,
         interactive: true,
       },
       {
         noeud: disposition.noeudCharges,
-        couleur: COULEURS.charges,
+        couleur: COULEUR_CHARGES,
         interactive: true,
       },
       {
         noeud: disposition.noeudReste,
-        couleur: COULEURS.reste,
+        couleur: COULEUR_RESTE,
         interactive: true,
       },
       ...disposition.noeudsPostes.map((n) => ({
@@ -104,7 +104,7 @@ export function DiagrammeSankey({
   const flux = [
     ...disposition.fluxPrincipaux.map((f) => ({
       ...f,
-      couleur: COULEURS[f.cle],
+      couleur: COULEURS[f.cle] ?? couleurPoste,
     })),
     ...disposition.fluxPostes.map((f) => ({ ...f, couleur: couleurPoste })),
   ];

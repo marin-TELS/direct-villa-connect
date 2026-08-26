@@ -628,3 +628,725 @@
     transform: none !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Placements complémentaires sur la grille 12 colonnes                */
+/* ------------------------------------------------------------------ */
+
+.pos-pleine {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .pos-chapo {
+    grid-column: 4 / 11;
+  }
+
+  .pos-notes {
+    grid-column: 9 / 13;
+  }
+
+  .pos-etapes {
+    grid-column: 3 / 11;
+  }
+
+  .pos-comparaison {
+    grid-column: 2 / 12;
+  }
+
+  .pos-audit-gauche {
+    grid-column: 1 / 7;
+  }
+
+  .pos-audit-droite {
+    grid-column: 6 / 12;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Bandeau de signal daté et point médian                              */
+/* ------------------------------------------------------------------ */
+
+.point-median {
+  color: var(--craie-3);
+  padding-inline: 8px;
+}
+
+.bandeau-signal {
+  border-top: 1px solid var(--filet);
+  border-bottom: 1px solid var(--filet);
+  padding-block: 16px;
+}
+
+.signal-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--signal-clair);
+  font-variant-numeric: tabular-nums;
+  margin-right: 12px;
+}
+
+.signal-texte {
+  font-family: var(--font-corps);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--craie-2);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 02 : ligne de contexte, phrase, chiffres animés             */
+/* ------------------------------------------------------------------ */
+
+.ligne-contexte {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--craie-2);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.phrase-resultat > * + * {
+  margin-top: 10px;
+}
+
+.phrase-resultat p {
+  font-family: var(--font-corps);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--craie);
+  margin-top: 32px;
+}
+
+.chiffre-dynamique {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  transition: opacity 150ms var(--courbe);
+}
+
+.chiffre-alerte {
+  color: var(--alerte);
+}
+
+/* ------------------------------------------------------------------ */
+/* Diagramme de Sankey                                                 */
+/* ------------------------------------------------------------------ */
+
+.sankey-conteneur {
+  position: relative;
+  width: 100%;
+}
+
+.sankey-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.rect-masque {
+  width: 0;
+  transition: width 900ms var(--courbe);
+}
+
+.sankey-conteneur.est-visible .rect-masque {
+  width: 1000px;
+}
+
+.flux-sankey {
+  opacity: 0.45;
+  transition:
+    opacity 300ms var(--courbe),
+    d 400ms var(--courbe);
+}
+
+.sankey-conteneur.a-survol .flux-sankey {
+  opacity: 0.18;
+}
+
+.sankey-conteneur.a-survol .flux-sankey.est-survole {
+  opacity: 0.75;
+}
+
+.noeud-sankey {
+  transition:
+    opacity 300ms var(--courbe),
+    x 400ms var(--courbe),
+    y 400ms var(--courbe),
+    width 400ms var(--courbe),
+    height 400ms var(--courbe);
+}
+
+.sankey-conteneur.a-survol .noeud-sankey {
+  opacity: 0.4;
+}
+
+.sankey-conteneur.a-survol .noeud-sankey.est-survole {
+  opacity: 1;
+}
+
+.libelle-sankey {
+  position: absolute;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: none;
+  max-width: 22%;
+  transition: opacity 300ms var(--courbe);
+}
+
+.libelle-gauche {
+  left: 0;
+}
+
+.libelle-milieu {
+  left: 42%;
+}
+
+.libelle-droite {
+  right: 0;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.libelle-nom {
+  font-family: var(--font-corps);
+  font-size: 0.8125rem;
+  color: var(--craie-2);
+  line-height: 1.3;
+}
+
+.libelle-montant {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  color: var(--craie);
+}
+
+.libelle-sankey.est-fort .libelle-montant {
+  font-size: 1rem;
+}
+
+.infobulle-sankey {
+  position: absolute;
+  transform: translate(16px, -50%);
+  background-color: var(--encre-2);
+  border: 1px solid var(--filet-fort);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.infobulle-nom {
+  font-family: var(--font-corps);
+  font-size: 0.8125rem;
+  color: var(--craie-2);
+}
+
+.infobulle-montant,
+.infobulle-part {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8125rem;
+  color: var(--craie);
+}
+
+.infobulle-part {
+  color: var(--craie-2);
+}
+
+/* Repli mobile : barres proportionnelles */
+
+.sankey-mobile > * + * {
+  margin-top: 20px;
+}
+
+.barre-poste-ligne {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.barre-poste-nom {
+  font-family: var(--font-corps);
+  font-size: 0.875rem;
+  color: var(--craie-2);
+}
+
+.barre-poste-montant {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  color: var(--craie);
+}
+
+.barre-poste-piste {
+  margin-top: 8px;
+  height: 6px;
+  background-color: var(--encre-3);
+}
+
+.barre-poste-remplissage {
+  height: 100%;
+  width: 0;
+  transition: width 700ms var(--courbe);
+}
+
+.sankey-mobile.est-visible .barre-poste-remplissage {
+  width: var(--cible);
+}
+
+/* ------------------------------------------------------------------ */
+/* Panneau de saisie du calculateur                                    */
+/* ------------------------------------------------------------------ */
+
+.panneau-saisie {
+  border-top: 1px solid var(--filet);
+  border-bottom: 1px solid var(--filet);
+  padding-block: 32px;
+}
+
+.panneau-grille {
+  display: grid;
+  gap: 40px;
+}
+
+@media (min-width: 900px) {
+  .panneau-grille {
+    grid-template-columns: 1.2fr 0.8fr 1fr;
+    gap: 48px;
+  }
+}
+
+.selecteur-canal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.onglet-canal {
+  font-family: var(--font-corps);
+  font-size: 0.875rem;
+  color: var(--craie-2);
+  border: 1px solid var(--filet);
+  padding: 8px 14px;
+  border-radius: 2px;
+  background: none;
+  transition:
+    color 200ms var(--courbe),
+    border-color 200ms var(--courbe);
+}
+
+.onglet-canal:hover {
+  color: var(--craie);
+  border-color: var(--filet-fort);
+}
+
+.onglet-canal.est-actif {
+  color: var(--encre);
+  background-color: var(--craie);
+  border-color: var(--craie);
+}
+
+.curseur-ligne {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.curseur-taux {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--signal) 0%,
+    var(--signal) var(--progression),
+    var(--filet) var(--progression),
+    var(--filet) 100%
+  );
+}
+
+.curseur-taux::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background-color: var(--craie);
+  border: 0;
+}
+
+.curseur-taux::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background-color: var(--craie);
+  border: 0;
+}
+
+.curseur-valeur {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--craie);
+  min-width: 48px;
+}
+
+.ligne-champ {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 10px;
+  border-bottom: 1px solid var(--filet);
+}
+
+.champ-conteneur {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.champ-nombre {
+  width: 96px;
+  text-align: right;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--filet-fort);
+  color: var(--craie);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  padding: 2px 0;
+}
+
+.champ-nombre:focus {
+  outline: none;
+  border-bottom-color: var(--signal-clair);
+}
+
+.champ-suffixe {
+  font-family: var(--font-mono);
+  color: var(--craie-3);
+}
+
+.ligne-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.montant-total {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--craie);
+}
+
+.lien-retablir {
+  font-family: var(--font-corps);
+  font-size: 0.875rem;
+  color: var(--craie-2);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--filet-fort);
+  padding-bottom: 2px;
+  transition: color 200ms var(--courbe);
+}
+
+.lien-retablir:hover {
+  color: var(--craie);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 03 : liste numérotée                                        */
+/* ------------------------------------------------------------------ */
+
+.liste-numerotee > * + * {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--filet);
+}
+
+.ligne-numerotee {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.numero-ligne {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--signal-clair);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 04 : étapes et lignes de clôture                            */
+/* ------------------------------------------------------------------ */
+
+.etape {
+  display: flex;
+  gap: 24px;
+  align-items: baseline;
+  padding-block: 24px;
+  border-top: 1px solid var(--filet);
+}
+
+.etape-numero {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  color: var(--signal-clair);
+}
+
+.etape-texte {
+  flex: 1;
+}
+
+.pile-clotures {
+  border-top: 1px solid var(--filet);
+}
+
+.ligne-cloture {
+  font-family: var(--font-titres);
+  font-size: 1.25rem;
+  color: var(--craie);
+  padding-block: 18px;
+  border-bottom: 1px solid var(--filet);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 05 : tarifs, largeurs volontairement inégales               */
+/* ------------------------------------------------------------------ */
+
+.rangee-tarifs {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .rangee-tarifs {
+    grid-template-columns: 1.7fr 1fr 1fr;
+    gap: 24px;
+  }
+}
+
+.bloc-tarif {
+  border-top: 1px solid var(--filet-fort);
+  padding-top: 24px;
+}
+
+.bloc-tarif-large {
+  border-top-color: var(--signal);
+}
+
+.montant-tarif {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--craie);
+}
+
+.montant-suffixe {
+  font-size: 0.875rem;
+  color: var(--craie-2);
+}
+
+.comparaison {
+  display: grid;
+  gap: 32px;
+  border-top: 1px solid var(--filet);
+  border-bottom: 1px solid var(--filet);
+  padding-block: 32px;
+}
+
+@media (min-width: 768px) {
+  .comparaison {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+.montant-comparaison {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1;
+  color: var(--craie);
+}
+
+.montant-alerte {
+  color: var(--alerte);
+}
+
+/* ------------------------------------------------------------------ */
+/* Bande audit                                                         */
+/* ------------------------------------------------------------------ */
+
+.bande-audit {
+  background-color: var(--encre-2);
+  border-top: 1px solid var(--filet-fort);
+  border-bottom: 1px solid var(--filet-fort);
+  padding-block: 96px;
+}
+
+@media (min-width: 768px) {
+  .bande-audit {
+    padding-block: 140px;
+  }
+}
+
+.accent-audit {
+  color: var(--craie);
+  font-weight: 600;
+}
+
+.montant-audit {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  color: var(--craie);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 06 : accordéon FAQ, signes + et − typographiques            */
+/* ------------------------------------------------------------------ */
+
+.accordeon {
+  border-top: 1px solid var(--filet);
+}
+
+.accordeon-entree {
+  border-bottom: 1px solid var(--filet);
+}
+
+.accordeon-ligne {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding-block: 22px;
+  color: var(--craie-2);
+  transition: color 200ms var(--courbe);
+}
+
+.accordeon-ligne:hover,
+.accordeon-ligne[aria-expanded="true"] {
+  color: var(--craie);
+}
+
+.accordeon-question {
+  font-family: var(--font-titres);
+  font-size: 1.125rem;
+  line-height: 1.4;
+  color: inherit;
+}
+
+.accordeon-signe {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  color: var(--signal-clair);
+}
+
+.accordeon-corps {
+  padding-bottom: 24px;
+  max-width: 64ch;
+}
+
+/* ------------------------------------------------------------------ */
+/* Clôture : formulaire                                                */
+/* ------------------------------------------------------------------ */
+
+.champ-texte {
+  display: block;
+  width: 100%;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--filet-fort);
+  color: var(--craie);
+  font-family: var(--font-corps);
+  font-size: 1rem;
+  padding-block: 10px;
+  transition: border-color 200ms var(--courbe);
+}
+
+.champ-texte:focus {
+  outline: none;
+  border-bottom-color: var(--signal-clair);
+}
+
+.message-erreur {
+  color: var(--alerte);
+}
+
+.message-confirmation {
+  border-left: 1px solid var(--signal);
+  padding-left: 20px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Pied de page                                                        */
+/* ------------------------------------------------------------------ */
+
+.pied-de-page {
+  border-top: 1px solid var(--filet);
+  padding-block: 64px;
+}
+
+.pied-liens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: 32px;
+}
+
+@media (min-width: 768px) {
+  .pied-liens {
+    margin-top: 0;
+  }
+}
+
+.pied-liens .t-mention {
+  width: 100%;
+}
+
+.lien-pied {
+  font-family: var(--font-corps);
+  font-size: 0.875rem;
+  color: var(--craie-2);
+  transition: color 200ms var(--courbe);
+}
+
+.lien-pied:hover {
+  color: var(--craie);
+}
+
+/* ------------------------------------------------------------------ */
+/* Mouvement réduit : compléments passes 2 et 3                        */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .rect-masque {
+    width: 1000px !important;
+    transition: none !important;
+  }
+
+  .flux-sankey,
+  .noeud-sankey {
+    transition: none !important;
+  }
+
+  .barre-poste-remplissage {
+    width: var(--cible) !important;
+    transition: none !important;
+  }
+}

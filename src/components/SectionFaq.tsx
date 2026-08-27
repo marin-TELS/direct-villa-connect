@@ -67,7 +67,7 @@ export function SectionFaq() {
   const [ouverte, setOuverte] = useState<number | null>(null);
 
   return (
-    <section id="faq" ref={ref} className="section-ancree py-24 md:py-40">
+    <section id="faq" ref={ref} className="section-ancree py-16 md:py-28">
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
@@ -81,7 +81,7 @@ export function SectionFaq() {
             Ce qu’on nous demande avant de signer
           </h2>
 
-          <div className="pos-bloc-b accordeon mt-12 md:mt-16" data-apparition>
+          <div className="pos-bloc-b accordeon mt-10 md:mt-16" data-apparition>
             {QUESTIONS.map((q, index) => {
               const estOuverte = ouverte === index;
               return (

@@ -6,7 +6,7 @@ export function SectionDiagramme() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="diagramme" ref={ref} className="section-ancree py-24 md:py-40">
+    <section id="diagramme" ref={ref} className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <LigneSection numero="02" libelle="Le calcul" />
@@ -25,7 +25,7 @@ export function SectionDiagramme() {
 
         <Calculateur />
 
-        <div className="grille-12 mt-16 md:mt-20">
+        <div className="grille-12 mt-10 md:mt-16">
           <p className="pos-chapo t-mention" data-apparition>
             Résultat d’exploitation s’entend avant charges financières et avant
             impôt. Exemple illustratif : les charges varient selon le bien, la

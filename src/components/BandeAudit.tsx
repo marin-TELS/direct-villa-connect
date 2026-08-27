@@ -8,7 +8,7 @@ export function BandeAudit() {
       <div className="conteneur">
         <div className="grille-12">
           <p className="t-libelle pos-titre-section" data-apparition>
-            Bande · L’audit de visibilité IA
+            L’audit de visibilité IA
           </p>
 
           <h2 className="t-section pos-titre-section mt-6" data-apparition>

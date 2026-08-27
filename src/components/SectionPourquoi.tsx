@@ -5,7 +5,7 @@ export function SectionPourquoi() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="pourquoi" ref={ref} className="section-ancree py-24 md:py-40">
+    <section id="pourquoi" ref={ref} className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <LigneSection numero="01" libelle="Pourquoi" />
@@ -15,7 +15,7 @@ export function SectionPourquoi() {
           </h2>
 
           <div
-            className="pos-bloc-a pile-texte mt-12 md:mt-16"
+            className="pos-bloc-a pile-texte mt-10 md:mt-16"
             data-apparition
           >
             <p className="t-corps">
@@ -34,7 +34,7 @@ export function SectionPourquoi() {
             </p>
           </div>
 
-          <div className="pos-bloc-b pile-texte mt-16 md:mt-30" data-apparition>
+          <div className="pos-bloc-b pile-texte mt-10 md:mt-16" data-apparition>
             <h3 className="t-bloc">
               Vous les accueillez, puis la porte se referme
             </h3>

@@ -4,7 +4,7 @@ export function BandeAudit() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="audit" ref={ref} className="bande-audit section-ancree">
+    <section id="audit" ref={ref} data-env="nuit-profonde" className="bande-audit section-ancree">
       <div className="conteneur">
         <div className="grille-12">
           <p className="t-libelle pos-titre-section" data-apparition>

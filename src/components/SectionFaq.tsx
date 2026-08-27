@@ -67,7 +67,7 @@ export function SectionFaq() {
   const [ouverte, setOuverte] = useState<number | null>(null);
 
   return (
-    <section id="faq" ref={ref} className="section-ancree py-16 md:py-28">
+    <section id="faq" ref={ref} data-env="jour" className="section-ancree py-16 md:py-28">
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger

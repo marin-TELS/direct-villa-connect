@@ -42,7 +42,7 @@ export function Cloture() {
   };
 
   return (
-    <section id="contact" ref={ref} className="section-ancree py-16 md:py-28">
+    <section id="contact" ref={ref} data-env="jour" className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <h2 className="t-section pos-titre-section" data-apparition>

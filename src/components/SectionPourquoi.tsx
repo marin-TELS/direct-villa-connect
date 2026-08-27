@@ -5,7 +5,7 @@ export function SectionPourquoi() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="pourquoi" ref={ref} className="section-ancree py-16 md:py-28">
+    <section id="pourquoi" ref={ref} data-env="nuit" className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <LigneSection numero="01" libelle="Pourquoi" />

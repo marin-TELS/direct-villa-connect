@@ -6,7 +6,7 @@ export function SectionDiagramme() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="diagramme" ref={ref} className="section-ancree py-16 md:py-28">
+    <section id="diagramme" ref={ref} data-env="nuit" className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <LigneSection numero="02" libelle="Le calcul" />

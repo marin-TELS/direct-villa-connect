@@ -16,7 +16,14 @@ export interface FluxSankey {
   d: string;
 }
 
+export interface EntreesFiscales {
+  cotisations: number;
+  impot: number;
+  disponible: number;
+}
+
 export interface DispositionSankey {
+  largeurVue: number;
   noeudRevenus: NoeudSankey;
   noeudCommission: NoeudSankey;
   noeudCharges: NoeudSankey;
@@ -24,12 +31,21 @@ export interface DispositionSankey {
   noeudsPostes: NoeudSankey[];
   fluxPrincipaux: FluxSankey[]; // revenus → commission / charges / reste
   fluxPostes: FluxSankey[]; // charges → six postes
+  noeudsFiscaux: NoeudSankey[]; // cotisations, impôt, revenu disponible
+  fluxFiscaux: FluxSankey[]; // résultat d'exploitation → étage fiscal
 }
 
 const LARGEUR_NOEUD = 14;
 const X_GAUCHE = 0;
-const X_MILIEU = 493;
-const X_DROITE = 986;
+/* Sans étage fiscal : trois colonnes sur 1000 unités.
+   Avec étage fiscal : quatre colonnes sur 1400 unités. */
+const LARGEUR_COURTE = 1000;
+const LARGEUR_LONGUE = 1400;
+const X_MILIEU_COURT = 493;
+const X_DROITE_COURT = 986;
+const X_MILIEU_LONG = 470;
+const X_DROITE_LONG = 900;
+const X_FISCAL = 1386;
 const MARGE_VERTICALE = 10;
 const HAUTEUR_UTILE = 500;
 const ESPACE_MILIEU = 10;
@@ -64,7 +80,12 @@ export function calculerDisposition(entrees: {
   totalCharges: number;
   reste: number;
   postes: number[];
+  fiscal?: EntreesFiscales | undefined;
 }): DispositionSankey {
+  const fiscal = entrees.fiscal;
+  const largeurVue = fiscal ? LARGEUR_LONGUE : LARGEUR_COURTE;
+  const X_MILIEU = fiscal ? X_MILIEU_LONG : X_MILIEU_COURT;
+  const X_DROITE = fiscal ? X_DROITE_LONG : X_DROITE_COURT;
   const revenus = positif(entrees.revenus);
   const commission = positif(entrees.commission);
   const totalCharges = positif(entrees.totalCharges);
@@ -180,7 +201,46 @@ export function calculerDisposition(entrees: {
     curseur += noeud.hauteur;
   }
 
+  // Étage fiscal : le résultat d'exploitation se répartit en trois
+  const noeudsFiscaux: NoeudSankey[] = [];
+  const fluxFiscaux: FluxSankey[] = [];
+  if (fiscal) {
+    const montants: { cle: string; montant: number }[] = [
+      { cle: "cotisations", montant: positif(fiscal.cotisations) },
+      { cle: "impot", montant: positif(fiscal.impot) },
+      { cle: "disponible", montant: positif(fiscal.disponible) },
+    ];
+    let yFiscal = noeudReste.y;
+    let curseurFiscal = noeudReste.y;
+    for (const { cle, montant } of montants) {
+      const h = hauteur(montant);
+      const noeud: NoeudSankey = {
+        cle,
+        x: X_FISCAL,
+        y: yFiscal,
+        largeur: LARGEUR_NOEUD,
+        hauteur: h,
+      };
+      noeudsFiscaux.push(noeud);
+      fluxFiscaux.push({
+        cle,
+        d: cheminFlux(
+          X_MILIEU + LARGEUR_NOEUD,
+          curseurFiscal,
+          X_FISCAL,
+          noeud.y,
+          noeud.hauteur,
+        ),
+      });
+      yFiscal += h + ESPACE_DROITE;
+      curseurFiscal += h;
+    }
+  }
+
   return {
+    largeurVue,
+    noeudsFiscaux,
+    fluxFiscaux,
     noeudRevenus,
     noeudCommission,
     noeudCharges,

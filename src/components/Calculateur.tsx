@@ -31,6 +31,12 @@ interface Canal {
 const PRIX_NUIT_DEFAUT = 1400;
 const NUITS_DEFAUT = 85;
 const TAUX_CONCIERGERIE_DEFAUT = 20;
+const AMORTISSEMENTS_DEFAUT = 35000;
+const TMI_DEFAUT = 0.3;
+const COTISATIONS_MINIMALES = 1300;
+const TAUX_COTISATIONS = 0.4;
+
+const TRANCHES = [0.11, 0.3, 0.41, 0.45];
 
 const CHARGES_DEFAUT: Charge[] = [
   { cle: "menage", libelle: "Ménage et blanchisserie", montant: 6300 },
@@ -180,6 +186,10 @@ export function Calculateur() {
     TAUX_CONCIERGERIE_DEFAUT,
   );
   const [charges, setCharges] = useState<Charge[]>(CHARGES_DEFAUT);
+  // L'étage fiscal est fermé au chargement, indépendamment du panneau
+  const [etageFiscal, setEtageFiscal] = useState(false);
+  const [amortissements, setAmortissements] = useState(AMORTISSEMENTS_DEFAUT);
+  const [tmi, setTmi] = useState(TMI_DEFAUT);
 
   // Animation d'entrée du diagramme : une seule fois, au premier passage
   const refZone = useRef<HTMLDivElement>(null);
@@ -211,12 +221,32 @@ export function Calculateur() {
   // Jamais de division par zéro : pas de pourcentage si résultat nul ou négatif
   const partDuResultat = resultat > 0 ? (commission / resultat) * 100 : null;
 
+  // Étage fiscal, calculé entièrement dans le navigateur
+  const resultatPositif = Math.max(0, resultat);
+  const baseImposable = Math.max(0, resultatPositif - amortissements);
+  const cotisations =
+    baseImposable > 0
+      ? Math.max(COTISATIONS_MINIMALES, TAUX_COTISATIONS * baseImposable)
+      : COTISATIONS_MINIMALES;
+  const impotRevenu = Math.max(0, baseImposable - cotisations) * tmi;
+  const revenuDisponible = Math.max(
+    0,
+    resultatPositif - cotisations - impotRevenu,
+  );
+  const donneesFiscales = {
+    cotisations,
+    impot: impotRevenu,
+    disponible: revenuDisponible,
+  };
+
   const retablirExemple = () => {
     setPrixNuit(PRIX_NUIT_DEFAUT);
     setNuitsLouees(NUITS_DEFAUT);
     setCanal("airbnb_hote");
     setTauxConciergerie(TAUX_CONCIERGERIE_DEFAUT);
     setCharges(CHARGES_DEFAUT.map((c) => ({ ...c })));
+    setAmortissements(AMORTISSEMENTS_DEFAUT);
+    setTmi(TMI_DEFAUT);
     setPanneauOuvert(false);
   };
 
@@ -257,17 +287,34 @@ export function Calculateur() {
         {formaterPourcentage(tauxCommission)} %.
       </p>
 
-      <div className="pos-pleine mt-10 hidden md:block">
-        <DiagrammeSankey
-          revenus={revenus}
-          commission={commission}
-          totalCharges={totalCharges}
-          reste={Math.max(0, resultat)}
-          postes={charges}
-          estVisible={estVisible}
-          formatMontant={(v) => formatMontant.format(Math.round(v))}
-          formatPart={formaterPourcentage}
-        />
+      <div className="pos-pleine zone-diagramme mt-10 hidden md:flex">
+        <div className="zone-diagramme-figure">
+          <DiagrammeSankey
+            revenus={revenus}
+            commission={commission}
+            totalCharges={totalCharges}
+            reste={resultatPositif}
+            postes={charges}
+            fiscal={etageFiscal ? donneesFiscales : undefined}
+            estVisible={estVisible}
+            formatMontant={(v) => formatMontant.format(Math.round(v))}
+            formatPart={formaterPourcentage}
+          />
+        </div>
+
+        <div className="detail-charges">
+          <p className="t-libelle">Charges d’exploitation</p>
+          <ul className="mt-4">
+            {charges.map((charge) => (
+              <li key={charge.cle} className="ligne-detail-charge">
+                <span className="t-mention">{charge.libelle}</span>
+                <span className="montant-detail">
+                  {formatMontant.format(Math.round(charge.montant))}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div
@@ -329,8 +376,8 @@ export function Calculateur() {
         sans louer une nuit de plus, et sans rien changer à votre maison.
       </p>
 
-      {!panneauOuvert ? (
-        <div className="pos-bloc-b mt-10">
+      <div className="pos-bloc-b rangee-boutons mt-10">
+        {!panneauOuvert ? (
           <button
             type="button"
             className="bouton-contour inline-flex items-center"
@@ -338,8 +385,86 @@ export function Calculateur() {
           >
             Utiliser mes propres chiffres
           </button>
+        ) : null}
+        {!etageFiscal ? (
+          <button
+            type="button"
+            className="bouton-contour inline-flex items-center"
+            onClick={() => setEtageFiscal(true)}
+          >
+            Et après l’impôt ?
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="lien-retablir"
+            onClick={() => setEtageFiscal(false)}
+          >
+            Replier
+          </button>
+        )}
+      </div>
+
+      {etageFiscal ? (
+        <div className="pos-pleine etage-fiscal mt-10">
+          <p className="t-libelle">Votre fiscalité</p>
+
+          <div className="reglages-fiscaux mt-5">
+            <div>
+              <ChampNombre
+                id="champ-amortissements"
+                libelle="Amortissements et intérêts déductibles"
+                valeur={amortissements}
+                suffixe="€"
+                onChange={setAmortissements}
+              />
+              <p className="t-mention mt-3">
+                Hypothèse : 35 000 € d’amortissements et d’intérêts déductibles.
+                Votre expert-comptable a le vrai chiffre.
+              </p>
+            </div>
+
+            <div>
+              <p className="t-mention">Votre tranche d’imposition</p>
+              <div
+                className="selecteur-canal mt-4"
+                role="radiogroup"
+                aria-label="Votre tranche d’imposition"
+              >
+                {TRANCHES.map((tranche) => (
+                  <button
+                    key={tranche}
+                    type="button"
+                    role="radio"
+                    aria-checked={tmi === tranche}
+                    className={`onglet-canal${tmi === tranche ? " est-actif" : ""}`}
+                    onClick={() => setTmi(tranche)}
+                  >
+                    {formaterPourcentage(tranche * 100)} %
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <p className="t-corps-fort mt-8">
+            La commission, elle, ne connaît ni tranche, ni abattement, ni
+            amortissement : elle se prélève sur la recette, avant tout le reste.
+          </p>
+
+          <p className="t-mention mt-6">
+            Calcul simplifié pour un loueur au régime réel : à ce niveau de
+            recettes, le régime micro n’est plus accessible et les cotisations
+            sociales d’indépendant sont dues (estimées ici à 40 % du bénéfice,
+            avec un minimum d’environ 1 300 € par an ; l’impôt est calculé après
+            leur déduction). Hors CFE et hors TVA para-hôtelière.
+            L’amortissement peut ramener la base imposable à zéro les premières
+            années.
+          </p>
         </div>
-      ) : (
+      ) : null}
+
+      {panneauOuvert ? (
         <div className="pos-pleine panneau-saisie mt-10">
           <div className="panneau-grille">
             <div className="panneau-partie">
@@ -444,7 +569,7 @@ export function Calculateur() {
             Revenir à l’exemple
           </button>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

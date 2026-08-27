@@ -1350,3 +1350,158 @@
     transition: none !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Passe 4 : environnements, étage fiscal, densité                     */
+/* ------------------------------------------------------------------ */
+
+/* Le fond réel est porté par le body et transitionne avec la section
+   dominante à l'écran ; les sections restent transparentes. */
+body {
+  background-color: var(--fond-page, var(--encre));
+  transition: background-color 600ms var(--courbe);
+}
+
+html[data-env-page="nuit"] {
+  --fond-page: #0b0b0c;
+}
+
+html[data-env-page="jour"] {
+  --fond-page: #f4f2ed;
+}
+
+html[data-env-page="nuit-profonde"] {
+  --fond-page: #070708;
+}
+
+[data-env="jour"],
+html[data-env-page="jour"] .nav-principale,
+html[data-env-page="jour"] .panneau-mobile {
+  --encre: #f4f2ed;
+  --encre-2: #edeae3;
+  --encre-3: #e6e3db;
+  --craie: #141416;
+  --craie-2: #3c3b38;
+  --craie-3: #5e5d59;
+  --filet: rgba(20, 20, 22, 0.12);
+  --filet-fort: rgba(20, 20, 22, 0.24);
+  --signal-clair: #2f6360;
+  color: var(--craie);
+}
+
+[data-env="nuit-profonde"] {
+  --encre: #070708;
+  --encre-2: #070708;
+  --encre-3: #111113;
+  --filet: rgba(244, 242, 237, 0.2);
+  --filet-fort: rgba(244, 242, 237, 0.34);
+  color: var(--craie);
+}
+
+html[data-env-page="nuit-profonde"] .nav-principale {
+  --filet: rgba(244, 242, 237, 0.2);
+  --filet-fort: rgba(244, 242, 237, 0.34);
+}
+
+[data-env],
+.nav-principale {
+  transition:
+    color 300ms var(--courbe),
+    background-color 300ms var(--courbe),
+    border-color 300ms var(--courbe);
+}
+
+html[data-env-page="jour"] .nav-principale.est-scrollee {
+  background-color: rgba(244, 242, 237, 0.86);
+}
+
+html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
+  background-color: rgba(7, 7, 8, 0.86);
+}
+
+/* Densité : interlignes resserrés */
+.t-corps,
+.t-corps-fort,
+.phrase-resultat p {
+  line-height: 1.55;
+}
+
+.pile-texte > * + * {
+  margin-top: 22px;
+}
+
+/* Diagramme + colonne de détail des charges (desktop uniquement) */
+.zone-diagramme {
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.zone-diagramme-figure {
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-charges {
+  width: 200px;
+  flex: none;
+  border-top: 1px solid var(--filet);
+  padding-top: 12px;
+}
+
+.ligne-detail-charge {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 7px;
+  border-bottom: 1px solid var(--filet);
+}
+
+.montant-detail {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8125rem;
+  color: var(--craie);
+}
+
+/* Étage fiscal */
+.rangee-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.etage-fiscal {
+  border-top: 1px solid var(--filet);
+  padding-top: 24px;
+}
+
+.reglages-fiscaux {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .reglages-fiscaux {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+/* Le masque d'entrée suit la largeur réelle du viewBox */
+.sankey-conteneur.est-visible .rect-masque {
+  width: var(--largeur-vue, 1000px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  [data-env],
+  .nav-principale {
+    transition: none !important;
+  }
+
+  .rect-masque {
+    width: var(--largeur-vue, 1000px) !important;
+  }
+}

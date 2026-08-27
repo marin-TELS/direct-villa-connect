@@ -5,7 +5,7 @@ export function SectionTarifs() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="tarifs" ref={ref} className="section-ancree py-24 md:py-40">
+    <section id="tarifs" ref={ref} data-env="jour" className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <LigneSection numero="05" libelle="Tarifs" />
@@ -15,7 +15,7 @@ export function SectionTarifs() {
           </h2>
         </div>
 
-        <div className="rangee-tarifs mt-12 md:mt-16">
+        <div className="rangee-tarifs mt-10 md:mt-16">
           <div className="bloc-tarif bloc-tarif-large" data-apparition>
             <p className="t-libelle">Installation</p>
             <p className="montant-tarif mt-4">3 500 €</p>
@@ -49,7 +49,7 @@ export function SectionTarifs() {
           </div>
         </div>
 
-        <div className="grille-12 mt-16 md:mt-20">
+        <div className="grille-12 mt-10 md:mt-16">
           <div className="pos-comparaison" data-apparition>
             <div className="comparaison">
               <div className="colonne-comparaison">

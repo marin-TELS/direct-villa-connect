@@ -2,6 +2,7 @@ import { useMemo, useRef, useState, type CSSProperties } from "react";
 
 import {
   calculerDisposition,
+  type EntreesFiscales,
   type NoeudSankey,
 } from "../lib/sankey-disposition";
 
@@ -17,6 +18,7 @@ interface DiagrammeSankeyProps {
   totalCharges: number;
   reste: number;
   postes: PosteSankey[];
+  fiscal?: EntreesFiscales | undefined;
   estVisible: boolean; // déclenche l'animation d'entrée, une seule fois
   formatMontant: (v: number) => string;
   formatPart: (v: number) => string;
@@ -26,6 +28,7 @@ const COULEUR_REVENUS = "var(--signal)";
 const COULEUR_COMMISSION = "var(--alerte)"; // seul emploi du rouge dans tout le site
 const COULEUR_CHARGES = "var(--craie-3)";
 const COULEUR_RESTE = "var(--signal)";
+const COULEUR_DISPONIBLE = "var(--signal)";
 
 const COULEURS: Record<string, string> = {
   revenus: COULEUR_REVENUS,
@@ -52,6 +55,7 @@ export function DiagrammeSankey({
   totalCharges,
   reste,
   postes,
+  fiscal,
   estVisible,
   formatMontant,
   formatPart,
@@ -68,38 +72,24 @@ export function DiagrammeSankey({
         totalCharges,
         reste,
         postes: postes.map((p) => p.montant),
+        fiscal,
       }),
-    [revenus, commission, totalCharges, reste, postes],
+    [revenus, commission, totalCharges, reste, postes, fiscal],
   );
 
-  const noeuds: { noeud: NoeudSankey; couleur: string; interactive: boolean }[] =
-    [
-      {
-        noeud: disposition.noeudRevenus,
-        couleur: COULEUR_REVENUS,
-        interactive: true,
-      },
-      {
-        noeud: disposition.noeudCommission,
-        couleur: COULEUR_COMMISSION,
-        interactive: true,
-      },
-      {
-        noeud: disposition.noeudCharges,
-        couleur: COULEUR_CHARGES,
-        interactive: true,
-      },
-      {
-        noeud: disposition.noeudReste,
-        couleur: COULEUR_RESTE,
-        interactive: true,
-      },
-      ...disposition.noeudsPostes.map((n) => ({
-        noeud: n,
-        couleur: couleurPoste,
-        interactive: true,
-      })),
-    ];
+  const largeur = disposition.largeurVue;
+
+  const noeuds: { noeud: NoeudSankey; couleur: string }[] = [
+    { noeud: disposition.noeudRevenus, couleur: COULEUR_REVENUS },
+    { noeud: disposition.noeudCommission, couleur: COULEUR_COMMISSION },
+    { noeud: disposition.noeudCharges, couleur: COULEUR_CHARGES },
+    { noeud: disposition.noeudReste, couleur: COULEUR_RESTE },
+    ...disposition.noeudsPostes.map((n) => ({ noeud: n, couleur: couleurPoste })),
+    ...disposition.noeudsFiscaux.map((n) => ({
+      noeud: n,
+      couleur: n.cle === "disponible" ? COULEUR_DISPONIBLE : couleurPoste,
+    })),
+  ];
 
   const flux = [
     ...disposition.fluxPrincipaux.map((f) => ({
@@ -107,16 +97,46 @@ export function DiagrammeSankey({
       couleur: COULEURS[f.cle] ?? couleurPoste,
     })),
     ...disposition.fluxPostes.map((f) => ({ ...f, couleur: couleurPoste })),
+    ...disposition.fluxFiscaux.map((f) => ({ ...f, couleur: couleurPoste })),
   ];
 
-  const libelles: {
+  type Libelle = {
     cle: string;
     nom: string;
     montant: number;
     cote: "gauche" | "milieu" | "droite";
     fort: boolean;
     noeud: NoeudSankey;
-  }[] = [
+  };
+
+  const libellesFiscaux: Libelle[] = fiscal
+    ? [
+        { cle: "cotisations", nom: "Cotisations sociales", fort: false },
+        { cle: "impot", nom: "Impôt sur le revenu", fort: false },
+        { cle: "disponible", nom: "Revenu disponible", fort: true },
+      ].flatMap((entree, index) => {
+        const noeud = disposition.noeudsFiscaux[index];
+        if (!noeud) return [];
+        const montant =
+          entree.cle === "cotisations"
+            ? fiscal.cotisations
+            : entree.cle === "impot"
+              ? fiscal.impot
+              : fiscal.disponible;
+        return [
+          {
+            cle: entree.cle,
+            nom: entree.nom,
+            montant,
+            cote: "droite" as const,
+            fort: entree.fort,
+            noeud,
+          },
+        ];
+      })
+    : [];
+
+  const libelles: Libelle[] = [
     {
       cle: "revenus",
       nom: "Revenus locatifs",
@@ -149,29 +169,23 @@ export function DiagrammeSankey({
       fort: true,
       noeud: disposition.noeudReste,
     },
-    ...postes.flatMap((p, index) => {
-      const noeud = disposition.noeudsPostes[index];
-      if (!noeud) return [];
-      return [
-        {
-          cle: `poste-${index}`,
-          nom: p.libelle,
-          montant: p.montant,
-          cote: "droite" as const,
-          fort: false,
-          noeud,
-        },
-      ];
-    }),
+    ...libellesFiscaux,
   ];
 
-  const parCle = new Map(libelles.map((l) => [l.cle, l]));
+  // Les postes de charges ne sont pas légendés dans le diagramme :
+  // le détail est affiché dans la colonne voisine.
+  const parCle = new Map<string, { nom: string; montant: number }>([
+    ...libelles.map(
+      (l) => [l.cle, { nom: l.nom, montant: l.montant }] as const,
+    ),
+    ...postes.map(
+      (p, index) =>
+        [`poste-${index}`, { nom: p.libelle, montant: p.montant }] as const,
+    ),
+  ]);
   const survole = survol ? parCle.get(survol) : undefined;
 
-  const suivrePointeur = (evenement: {
-    clientX: number;
-    clientY: number;
-  }) => {
+  const suivrePointeur = (evenement: { clientX: number; clientY: number }) => {
     const cadre = refConteneur.current?.getBoundingClientRect();
     if (!cadre) return;
     setPosition({
@@ -182,6 +196,17 @@ export function DiagrammeSankey({
 
   const entrer = (cle: string) => setSurvol(cle);
   const sortir = () => setSurvol(null);
+
+  const positionLibelle = (l: Libelle): CSSProperties => {
+    const haut = `${((l.noeud.y + l.noeud.hauteur / 2) / 520) * 100}%`;
+    if (l.cote === "gauche") return { top: haut, left: 0 };
+    if (l.cote === "milieu")
+      return {
+        top: haut,
+        left: `${((l.noeud.x + l.noeud.largeur + 14) / largeur) * 100}%`,
+      };
+    return { top: haut, right: 0 };
+  };
 
   return (
     <div
@@ -195,14 +220,20 @@ export function DiagrammeSankey({
       aria-label={`Diagramme des flux : ${formatMontant(revenus)} de revenus, dont ${formatMontant(commission)} de commission, ${formatMontant(totalCharges)} de charges et ${formatMontant(reste)} de résultat d’exploitation.`}
     >
       <svg
-        viewBox="0 0 1000 520"
+        viewBox={`0 0 ${largeur} 520`}
         preserveAspectRatio="xMidYMid meet"
         className="sankey-svg"
         aria-hidden="true"
       >
         <defs>
           <clipPath id="masque-flux-sankey">
-            <rect className="rect-masque" x="0" y="0" height="520" />
+            <rect
+              className="rect-masque"
+              x="0"
+              y="0"
+              height="520"
+              style={{ "--largeur-vue": `${largeur}px` } as CSSProperties}
+            />
           </clipPath>
         </defs>
         <g clipPath="url(#masque-flux-sankey)">
@@ -217,7 +248,7 @@ export function DiagrammeSankey({
             />
           ))}
         </g>
-        {noeuds.map(({ noeud, couleur, interactive }) => (
+        {noeuds.map(({ noeud, couleur }) => (
           <rect
             key={noeud.cle}
             className={`noeud-sankey${survol === noeud.cle ? " est-survole" : ""}`}
@@ -227,7 +258,7 @@ export function DiagrammeSankey({
             height={noeud.hauteur}
             style={styleNoeud(noeud)}
             fill={couleur}
-            onMouseEnter={interactive ? () => entrer(noeud.cle) : undefined}
+            onMouseEnter={() => entrer(noeud.cle)}
           />
         ))}
       </svg>
@@ -236,9 +267,7 @@ export function DiagrammeSankey({
         <div
           key={l.cle}
           className={`libelle-sankey libelle-${l.cote}${l.fort ? " est-fort" : ""}${survol === l.cle ? " est-survole" : ""}`}
-          style={{
-            top: `${((l.noeud.y + l.noeud.hauteur / 2) / 520) * 100}%`,
-          }}
+          style={positionLibelle(l)}
         >
           <span className="libelle-nom">{l.nom}</span>
           <span className="libelle-montant">{formatMontant(l.montant)}</span>

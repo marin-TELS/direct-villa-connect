@@ -4,7 +4,7 @@ export function BandeauOuverture() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="haut" ref={ref} className="bandeau section-ancree">
+    <section id="haut" ref={ref} data-env="nuit" className="bandeau section-ancree">
       <div className="conteneur grille-12 bandeau-grille">
         <div className="pos-bandeau">
           <p className="t-libelle" data-apparition>

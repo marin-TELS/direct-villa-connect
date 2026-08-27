@@ -34,7 +34,7 @@ export function SectionMethode() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="methode" ref={ref} className="section-ancree py-24 md:py-40">
+    <section id="methode" ref={ref} data-env="jour" className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <LigneSection numero="04" libelle="La méthode" />
@@ -47,7 +47,7 @@ export function SectionMethode() {
             Le temps que cela vous prend, à vous, tient en deux rendez-vous.
           </p>
 
-          <ol className="pos-etapes mt-12 md:mt-16">
+          <ol className="pos-etapes mt-10 md:mt-16">
             {ETAPES.map((etape) => (
               <li key={etape.numero} className="etape" data-apparition>
                 <span className="etape-numero">{etape.numero}</span>

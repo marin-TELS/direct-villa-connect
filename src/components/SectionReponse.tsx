@@ -29,7 +29,7 @@ export function SectionReponse() {
   const ref = useApparition<HTMLElement>();
 
   return (
-    <section id="reponse" ref={ref} className="section-ancree py-24 md:py-40">
+    <section id="reponse" ref={ref} data-env="jour" className="section-ancree py-16 md:py-28">
       <div className="conteneur">
         <div className="grille-12">
           <LigneSection numero="03" libelle="Notre réponse" />
@@ -38,7 +38,7 @@ export function SectionReponse() {
             Un site qui capte vos clients, un système qui les gère
           </h2>
 
-          <div className="pos-bloc-a pile-texte mt-12 md:mt-16" data-apparition>
+          <div className="pos-bloc-a pile-texte mt-10 md:mt-16" data-apparition>
             <h3 className="t-bloc">Un site qui travaille</h3>
             <p className="t-corps">
               La plupart des sites de villa sont des brochures : de belles
@@ -59,7 +59,7 @@ export function SectionReponse() {
             </p>
           </div>
 
-          <div className="pos-bloc-b pile-texte mt-16 md:mt-30" data-apparition>
+          <div className="pos-bloc-b pile-texte mt-10 md:mt-16" data-apparition>
             <h3 className="t-bloc">Être cité quand on demande où loger</h3>
             <p className="t-corps">
               Une part croissante de vos futurs clients ne tape plus « villa
@@ -81,7 +81,7 @@ export function SectionReponse() {
             </p>
           </div>
 
-          <div className="pos-bloc-a pile-texte mt-16 md:mt-30" data-apparition>
+          <div className="pos-bloc-a pile-texte mt-10 md:mt-16" data-apparition>
             <h3 className="t-bloc">Le système d’exploitation</h3>
             <p className="t-corps">
               Un canal direct sans outil de gestion n’est pas un gain, c’est du
@@ -110,7 +110,7 @@ export function SectionReponse() {
             </div>
           </div>
 
-          <div className="pos-notes mt-16 md:mt-30" data-apparition>
+          <div className="pos-notes mt-10 md:mt-16" data-apparition>
             <p className="t-libelle">Ce qu’il y a dedans</p>
             <ul className="liste-numerotee mt-6">
               {DEDANS.map((element) => (

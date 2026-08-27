@@ -2,7 +2,7 @@ import { EMAIL_CONTACT } from "../lib/constantes";
 
 export function PiedDePage() {
   return (
-    <footer className="pied-de-page">
+    <footer className="pied-de-page" data-env="jour">
       <div className="conteneur">
         <div className="grille-12">
           <div className="pos-bloc-a">

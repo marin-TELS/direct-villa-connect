@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { useEnvironnement } from "../hooks/use-environnement";
 import { Navigation } from "../components/Navigation";
 import { BandeauOuverture } from "../components/BandeauOuverture";
 import { SectionPourquoi } from "../components/SectionPourquoi";
@@ -33,6 +34,8 @@ export const Route = createFileRoute("/")({
 });
 
 function PageAccueil() {
+  useEnvironnement();
+
   return (
     <>
       <Navigation />

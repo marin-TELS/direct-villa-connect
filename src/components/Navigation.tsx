@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 
 const liensNavigation = [
   { libelle: "Pourquoi", ancre: "#pourquoi" },
+  { libelle: "Le calcul", ancre: "#diagramme" },
   { libelle: "Notre réponse", ancre: "#reponse" },
   { libelle: "Méthode", ancre: "#methode" },
   { libelle: "Tarifs", ancre: "#tarifs" },
+  { libelle: "Audit", ancre: "#audit" },
+  { libelle: "Questions", ancre: "#faq" },
 ];
 
 const liensMobile = [
@@ -44,7 +47,7 @@ export function Navigation() {
             <span className="logotype-qualif">studio</span>
           </a>
 
-          <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 lg:flex">
+          <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:flex">
             {liensNavigation.map((lien) => (
               <a key={lien.ancre} href={lien.ancre} className="lien-nav t-libelle">
                 {lien.libelle}

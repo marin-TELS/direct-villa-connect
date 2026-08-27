@@ -35,12 +35,15 @@ export function useEnvironnement() {
         for (const entree of entrees) {
           visibles.set(
             entree.target as HTMLElement,
-            entree.isIntersecting ? entree.intersectionRatio : 0,
+            entree.isIntersecting ? entree.intersectionRect.height : 0,
           );
         }
         appliquer();
       },
-      { threshold: [0, 0.25, 0.5, 0.75, 1] },
+      {
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+        rootMargin: "-10% 0px -40% 0px",
+      },
     );
 
     for (const section of sections) observateur.observe(section);

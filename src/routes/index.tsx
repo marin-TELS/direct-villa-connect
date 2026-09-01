@@ -44,6 +44,7 @@ function PageAccueil() {
         <BandeauOuverture />
         <SectionPourquoi />
         <SectionDiagramme />
+        <SectionSeuil />
         <SectionReponse />
         <SectionMethode />
         <SectionTarifs />

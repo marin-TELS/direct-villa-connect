@@ -1613,3 +1613,9 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
   padding-bottom: 96px;
   min-height: 70vh;
 }
+
+/* Troisième ligne de la phrase choc : la plus grande des trois */
+.phrase-resultat .ligne-disponible {
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.25;
+}

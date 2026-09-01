@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      demandes_contact: {
+        Row: {
+          consentement: boolean
+          cree_le: string
+          disponibilites: string | null
+          email: string
+          id: string
+          message: string | null
+          prenom: string | null
+          telephone: string | null
+          type: string
+        }
+        Insert: {
+          consentement?: boolean
+          cree_le?: string
+          disponibilites?: string | null
+          email: string
+          id?: string
+          message?: string | null
+          prenom?: string | null
+          telephone?: string | null
+          type: string
+        }
+        Update: {
+          consentement?: boolean
+          cree_le?: string
+          disponibilites?: string | null
+          email?: string
+          id?: string
+          message?: string | null
+          prenom?: string | null
+          telephone?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

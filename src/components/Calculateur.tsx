@@ -388,7 +388,18 @@ export function Calculateur() {
               />{" "}
               de votre résultat d’exploitation.
             </p>
+            {etageFiscal && partDuDisponible !== null ? (
+              <p className="ligne-disponible">
+                Elle représente{" "}
+                <NombreAnime
+                  alerte
+                  valeur={`${formaterPourcentage(partDuDisponible)} %`}
+                />{" "}
+                de votre revenu disponible.
+              </p>
+            ) : null}
           </>
+
         )}
       </div>
 

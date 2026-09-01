@@ -21,8 +21,8 @@ export function SectionTarifs() {
             <p className="montant-tarif mt-4">3 500 €</p>
             <p className="t-corps mt-6">
               Site sur mesure, espace de gestion, calendrier, moteur de devis,
-              emails automatiques, préparation à la recherche par IA. Paiement
-              en deux fois.
+              emails automatiques, préparation à la recherche par IA, fiche
+              Google Business Profile configurée. Paiement en deux fois.
             </p>
           </div>
 
@@ -33,7 +33,9 @@ export function SectionTarifs() {
             </p>
             <p className="t-mention mt-6">
               Hébergement, espace de gestion, sauvegardes, mises à jour,
-              corrections et assistance. Sans engagement de durée.
+              corrections et assistance. Votre visibilité IA est mesurée à la
+              mise en ligne : votre point de départ est posé. Sans engagement de
+              durée.
             </p>
           </div>
 
@@ -43,10 +45,12 @@ export function SectionTarifs() {
               290 € <span className="montant-suffixe">par mois</span>
             </p>
             <p className="t-mention mt-6">
-              Tout ce qui précède, et deux audits de visibilité IA par an,
+              Tout ce qui précède, la mesure mensuelle de votre visibilité IA,
+              suivie dans votre espace, et deux audits complets par an,
               corrections comprises.
             </p>
           </div>
+
         </div>
 
         <div className="grille-12 mt-10 md:mt-16">

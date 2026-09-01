@@ -1,4 +1,5 @@
 import { useApparition } from "../hooks/use-apparition";
+import { BandeauSignal } from "./BandeauSignal";
 import { LigneSection } from "./LigneSection";
 
 export function SectionPourquoi() {
@@ -32,7 +33,9 @@ export function SectionPourquoi() {
               n’écrivez pas les règles peut se refermer, ou se renchérir, sans
               vous demander votre avis.
             </p>
+            <BandeauSignal />
           </div>
+
 
           <div className="pos-bloc-b pile-texte mt-10 md:mt-16" data-apparition>
             <h3 className="t-bloc">
@@ -54,9 +57,11 @@ export function SectionPourquoi() {
               d’utiliser des coordonnées à des fins étrangères au séjour.
             </p>
             <p className="t-corps">
-              En cas de manquement : visibilité réduite, annonce retirée, compte
-              fermé.
+              En cas de manquement, c’est la sanction d’un grand groupe :
+              visibilité réduite, annonce retirée, compte fermé. Le canal qui
+              fait vivre votre maison peut se refermer du jour au lendemain.
             </p>
+
             <p className="t-corps">
               Des années d’accueil, et aucun fichier client. Non par négligence :
               le constituer vous est interdit.

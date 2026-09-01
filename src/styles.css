@@ -1506,3 +1506,110 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
     width: var(--largeur-vue, 1000px) !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Passe 5 : seuil plein écran, clôture à deux options, page légale    */
+/* ------------------------------------------------------------------ */
+
+.seuil {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--filet);
+  border-bottom: 1px solid var(--filet);
+}
+
+.seuil-titre {
+  font-family: var(--font-titres);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-size: clamp(2.5rem, 6.5vw, 5.25rem);
+  color: var(--craie);
+}
+
+.seuil-titre + .seuil-titre {
+  margin-top: 0.2em;
+  color: var(--craie-2);
+}
+
+/* Clôture : deux options de largeurs inégales, le rappel plus large */
+.rangee-clotures {
+  display: grid;
+  gap: 40px;
+}
+
+@media (min-width: 1024px) {
+  .rangee-clotures {
+    grid-template-columns: 1.618fr 1fr;
+    gap: 64px;
+  }
+}
+
+.bloc-cloture {
+  border-top: 1px solid var(--filet-fort);
+  padding-top: 24px;
+}
+
+.titre-cloture {
+  font-family: var(--font-titres);
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  letter-spacing: -0.02em;
+  color: var(--craie);
+}
+
+.champ-zone {
+  width: 100%;
+  min-height: 120px;
+  background-color: transparent;
+  border: 1px solid var(--filet-fort);
+  color: var(--craie);
+  font-family: var(--font-corps);
+  font-size: 0.95rem;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.champ-zone:focus-visible {
+  outline: 1px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.groupe-creneaux {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+.case-ligne {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.case-ligne input[type="checkbox"] {
+  margin-top: 3px;
+  width: 14px;
+  height: 14px;
+  accent-color: var(--signal);
+  flex: none;
+}
+
+.case-ligne label {
+  color: var(--craie-2);
+}
+
+.lien-confidentialite {
+  color: var(--signal);
+  border-bottom: 1px solid var(--filet-fort);
+}
+
+.lien-confidentialite:hover {
+  color: var(--signal-clair);
+}
+
+.page-legale {
+  padding-top: 140px;
+  padding-bottom: 96px;
+  min-height: 70vh;
+}

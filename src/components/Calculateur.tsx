@@ -239,6 +239,27 @@ export function Calculateur() {
     disponible: revenuDisponible,
   };
 
+  // Même cascade, commission remise à zéro : le revenu libéré par le direct
+  const resultatSansCommission = Math.max(0, revenus - totalCharges);
+  const baseSansCommission = Math.max(0, resultatSansCommission - amortissements);
+  const cotisationsSansCommission =
+    baseSansCommission > 0
+      ? Math.max(COTISATIONS_MINIMALES, TAUX_COTISATIONS * baseSansCommission)
+      : COTISATIONS_MINIMALES;
+  const impotSansCommission =
+    Math.max(0, baseSansCommission - cotisationsSansCommission) * tmi;
+  const disponibleSansCommission = Math.max(
+    0,
+    resultatSansCommission - cotisationsSansCommission - impotSansCommission,
+  );
+  const ecartDisponible = Math.max(
+    0,
+    disponibleSansCommission - revenuDisponible,
+  );
+  const partDuDisponible =
+    revenuDisponible > 0 ? (commission / revenuDisponible) * 100 : null;
+
+
   const retablirExemple = () => {
     setPrixNuit(PRIX_NUIT_DEFAUT);
     setNuitsLouees(NUITS_DEFAUT);
@@ -367,7 +388,18 @@ export function Calculateur() {
               />{" "}
               de votre résultat d’exploitation.
             </p>
+            {etageFiscal && partDuDisponible !== null ? (
+              <p className="ligne-disponible">
+                Elle représente{" "}
+                <NombreAnime
+                  alerte
+                  valeur={`${formaterPourcentage(partDuDisponible)} %`}
+                />{" "}
+                de votre revenu disponible.
+              </p>
+            ) : null}
           </>
+
         )}
       </div>
 
@@ -451,6 +483,19 @@ export function Calculateur() {
             La commission, elle, ne connaît ni tranche, ni abattement, ni
             amortissement : elle se prélève sur la recette, avant tout le reste.
           </p>
+
+          {commission > 0 ? (
+            <p className="t-corps-fort mt-8">
+              Réservées en direct, ces mêmes nuits libèrent{" "}
+              <NombreAnime
+                valeur={formatMontant.format(Math.round(ecartDisponible))}
+              />{" "}
+              de revenu disponible supplémentaire par an. À comparer aux{" "}
+              <span className="chiffre-dynamique">2 160 €</span> par an de
+              l’abonnement Présence.
+            </p>
+          ) : null}
+
 
           <p className="t-mention mt-6">
             Calcul simplifié pour un loueur au régime réel : à ce niveau de

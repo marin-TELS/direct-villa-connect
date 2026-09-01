@@ -70,9 +70,11 @@ export function SectionReponse() {
             <p className="t-corps">
               Ces trois places se préparent : des données structurées, un
               contenu que la machine peut lire et citer sans se tromper, des
-              informations cohérentes partout où votre bien apparaît. C’est un
-              travail de précision, pas de volume.
+              informations cohérentes partout où votre bien apparaît, de votre
+              fiche Google à vos annonces. C’est un travail de précision, pas de
+              volume.
             </p>
+
             <p className="t-corps">
               Chaque site que nous livrons est construit pour être lu, compris
               et cité par les IA. Et nous mesurons, audit après audit, ce

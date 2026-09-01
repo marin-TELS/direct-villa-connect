@@ -239,6 +239,27 @@ export function Calculateur() {
     disponible: revenuDisponible,
   };
 
+  // Même cascade, commission remise à zéro : le revenu libéré par le direct
+  const resultatSansCommission = Math.max(0, revenus - totalCharges);
+  const baseSansCommission = Math.max(0, resultatSansCommission - amortissements);
+  const cotisationsSansCommission =
+    baseSansCommission > 0
+      ? Math.max(COTISATIONS_MINIMALES, TAUX_COTISATIONS * baseSansCommission)
+      : COTISATIONS_MINIMALES;
+  const impotSansCommission =
+    Math.max(0, baseSansCommission - cotisationsSansCommission) * tmi;
+  const disponibleSansCommission = Math.max(
+    0,
+    resultatSansCommission - cotisationsSansCommission - impotSansCommission,
+  );
+  const ecartDisponible = Math.max(
+    0,
+    disponibleSansCommission - revenuDisponible,
+  );
+  const partDuDisponible =
+    revenuDisponible > 0 ? (commission / revenuDisponible) * 100 : null;
+
+
   const retablirExemple = () => {
     setPrixNuit(PRIX_NUIT_DEFAUT);
     setNuitsLouees(NUITS_DEFAUT);

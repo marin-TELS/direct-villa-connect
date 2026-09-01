@@ -76,8 +76,8 @@
   --craie-3: #5e5d59;
   --filet: rgba(244, 242, 237, 0.09);
   --filet-fort: rgba(244, 242, 237, 0.2);
-  --signal: #3e7c79;
-  --signal-clair: #6fb3af;
+  --signal: #c9a063; /* laiton, environnements nuit */
+  --signal-clair: #d9b380;
   --alerte: #c1452f; /* réservé au futur diagramme, ne pas utiliser ailleurs */
 
   /* Courbe de mouvement unique */
@@ -1385,7 +1385,8 @@ html[data-env-page="jour"] .panneau-mobile {
   --craie-3: #5e5d59;
   --filet: rgba(20, 20, 22, 0.12);
   --filet-fort: rgba(20, 20, 22, 0.24);
-  --signal-clair: #2f6360;
+  --signal: #7a5b32; /* laiton sombre, environnement jour */
+  --signal-clair: #63492a;
   color: var(--craie);
 }
 

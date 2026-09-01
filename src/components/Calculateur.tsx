@@ -484,6 +484,19 @@ export function Calculateur() {
             amortissement : elle se prélève sur la recette, avant tout le reste.
           </p>
 
+          {commission > 0 ? (
+            <p className="t-corps-fort mt-8">
+              Réservées en direct, ces mêmes nuits libèrent{" "}
+              <NombreAnime
+                valeur={formatMontant.format(Math.round(ecartDisponible))}
+              />{" "}
+              de revenu disponible supplémentaire par an. À comparer aux{" "}
+              <span className="chiffre-dynamique">2 160 €</span> par an de
+              l’abonnement Présence.
+            </p>
+          ) : null}
+
+
           <p className="t-mention mt-6">
             Calcul simplifié pour un loueur au régime réel : à ce niveau de
             recettes, le régime micro n’est plus accessible et les cotisations

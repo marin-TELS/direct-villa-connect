@@ -5,6 +5,7 @@ import { Navigation } from "../components/Navigation";
 import { BandeauOuverture } from "../components/BandeauOuverture";
 import { SectionPourquoi } from "../components/SectionPourquoi";
 import { SectionDiagramme } from "../components/SectionDiagramme";
+import { SectionSeuil } from "../components/SectionSeuil";
 import { SectionReponse } from "../components/SectionReponse";
 import { SectionMethode } from "../components/SectionMethode";
 import { SectionTarifs } from "../components/SectionTarifs";

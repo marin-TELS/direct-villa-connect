@@ -22,7 +22,7 @@ export function PiedDePage() {
             <span className="point-median" aria-hidden="true">
               ·
             </span>
-            <a href="#confidentialite" className="lien-pied">
+            <a href="/confidentialite" className="lien-pied">
               Confidentialité
             </a>
             {EMAIL_CONTACT ? (

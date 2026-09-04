@@ -18,12 +18,12 @@ export function SectionSeuil() {
               Voici ce que nous construisons à la place.
             </p>
             <div className="mt-12" data-apparition>
-              <a
-                href="#reponse"
+              <Link
+                to="/reponse"
                 className="bouton-principal inline-flex items-center"
               >
                 Découvrir notre réponse
-              </a>
+              </Link>
             </div>
           </div>
         </div>

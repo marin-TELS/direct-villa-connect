@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 
 import { useApparition } from "../hooks/use-apparition";
-import { supabase } from "../integrations/supabase/client";
 
 /** Validation minimale : un email de forme plausible. */
 function emailValide(valeur: string): boolean {

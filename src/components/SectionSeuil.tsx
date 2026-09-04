@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 import { useApparition } from "../hooks/use-apparition";
 
 /** Seuil plein écran : la bascule de la nuit vers le jour. */

@@ -231,17 +231,10 @@ function FormulaireQuestion() {
     }
     setErreur(null);
     setEnvoi(true);
-    const { error } = await supabase.from("demandes_contact").insert({
-      type: "question",
-      email: email.trim(),
-      message: question.trim(),
-      consentement: true,
-    });
+    // TODO backend : brancher l'envoi de la demande (type « question »,
+    // email, message, consentement) quand l'autorisation sera donnée.
+    // Aucune requête réseau n'est émise pour l'instant.
     setEnvoi(false);
-    if (error) {
-      setErreur("L’envoi n’a pas abouti. Réessayez dans un instant.");
-      return;
-    }
     setEnvoye(true);
   };
 

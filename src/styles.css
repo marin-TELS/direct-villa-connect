@@ -1619,3 +1619,37 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
   font-size: clamp(1.35rem, 2.6vw, 2rem);
   line-height: 1.25;
 }
+
+/* ------------------------------------------------------------------ */
+/* Voile d'entrée de /reponse : panneau clair étiré depuis le haut     */
+/* ------------------------------------------------------------------ */
+
+.voile-entree {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: var(--craie);
+  transform-origin: top center;
+  animation: voile-etirement 600ms var(--courbe) forwards;
+  pointer-events: none;
+}
+
+@keyframes voile-etirement {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voile-entree {
+    display: none;
+  }
+}

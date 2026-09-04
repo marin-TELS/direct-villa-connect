@@ -57,9 +57,10 @@ export function SectionPourquoi() {
               d’utiliser des coordonnées à des fins étrangères au séjour.
             </p>
             <p className="t-corps">
-              En cas de manquement, c’est la sanction d’un grand groupe :
-              visibilité réduite, annonce retirée, compte fermé. Le canal qui
-              fait vivre votre maison peut se refermer du jour au lendemain.
+              En cas de manquement répété ou grave, la politique d’Airbnb le
+              prévoit noir sur blanc : suspension ou désactivation définitive de
+              l’annonce, voire du compte. Le canal qui fait vivre votre maison
+              peut se refermer du jour au lendemain.
             </p>
 
             <p className="t-corps">

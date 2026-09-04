@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 
 import { useApparition } from "../hooks/use-apparition";
-import { supabase } from "../integrations/supabase/client";
 
 /** Validation minimale : un email de forme plausible. */
 function emailValide(valeur: string): boolean {
@@ -91,20 +90,10 @@ function FormulaireRappel() {
     }
     setErreur(null);
     setEnvoi(true);
-    const { error } = await supabase.from("demandes_contact").insert({
-      type: "rappel",
-      prenom: prenom.trim(),
-      telephone: telephone.trim(),
-      email: email.trim(),
-      disponibilites: creneaux.join(" · "),
-      message: precision.trim() || null,
-      consentement: true,
-    });
+    // TODO backend : brancher l'envoi de la demande (type « rappel »,
+    // prénom, téléphone, email, disponibilités, précision, consentement)
+    // quand l'autorisation sera donnée. Aucune requête réseau ici.
     setEnvoi(false);
-    if (error) {
-      setErreur("L’envoi n’a pas abouti. Réessayez dans un instant.");
-      return;
-    }
     setEnvoye(true);
   };
 
@@ -232,17 +221,10 @@ function FormulaireQuestion() {
     }
     setErreur(null);
     setEnvoi(true);
-    const { error } = await supabase.from("demandes_contact").insert({
-      type: "question",
-      email: email.trim(),
-      message: question.trim(),
-      consentement: true,
-    });
+    // TODO backend : brancher l'envoi de la demande (type « question »,
+    // email, message, consentement) quand l'autorisation sera donnée.
+    // Aucune requête réseau n'est émise pour l'instant.
     setEnvoi(false);
-    if (error) {
-      setErreur("L’envoi n’a pas abouti. Réessayez dans un instant.");
-      return;
-    }
     setEnvoye(true);
   };
 

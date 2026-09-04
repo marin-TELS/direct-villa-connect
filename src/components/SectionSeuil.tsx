@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 import { useApparition } from "../hooks/use-apparition";
 
 /** Seuil plein écran : la bascule de la nuit vers le jour. */
@@ -16,12 +18,12 @@ export function SectionSeuil() {
               Voici ce que nous construisons à la place.
             </p>
             <div className="mt-12" data-apparition>
-              <a
-                href="#reponse"
+              <Link
+                to="/reponse"
                 className="bouton-principal inline-flex items-center"
               >
                 Découvrir notre réponse
-              </a>
+              </Link>
             </div>
           </div>
         </div>

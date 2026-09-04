@@ -1619,3 +1619,28 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
   font-size: clamp(1.35rem, 2.6vw, 2rem);
   line-height: 1.25;
 }
+
+/* ------------------------------------------------------------------ */
+/* Entrée de /reponse : panneau clair étiré depuis le haut             */
+/* ------------------------------------------------------------------ */
+
+.entree-panneau {
+  animation: panneau-descente 600ms var(--courbe) both;
+  will-change: clip-path;
+}
+
+@keyframes panneau-descente {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entree-panneau {
+    animation: none;
+    clip-path: none;
+  }
+}

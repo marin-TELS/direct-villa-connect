@@ -1,6 +1,6 @@
 import { useApparition } from "../hooks/use-apparition";
 import { LigneSection } from "./LigneSection";
-import { URL_DEMONSTRATION } from "../lib/constantes";
+import { Link } from "@tanstack/react-router";
 
 const DEDANS = [
   {
@@ -97,18 +97,13 @@ export function SectionReponse() {
               partout.
             </p>
             <div>
-              <a
-                href={URL_DEMONSTRATION}
-                target="_blank"
-                rel="noreferrer"
+              <Link
+                to="/demo"
                 className="bouton-principal inline-flex items-center"
               >
                 Ouvrir la démonstration
-              </a>
-              <p className="t-mention mt-4">
-                Données de démonstration. Vous pouvez tout parcourir, rien n’est
-                envoyé.
-              </p>
+              </Link>
+              <p className="t-mention mt-4">Données de démonstration.</p>
             </div>
           </div>
 

@@ -3,8 +3,7 @@
  * URL_DEMONSTRATION : adresse de l'espace de gestion de démonstration.
  * Valeur provisoire (aperçu du projet) en attendant l'adresse définitive.
  */
-export const URL_DEMONSTRATION =
-  "https://id-preview--0db83011-6ac5-481a-bfc1-f44e26476de9.lovable.app/admin";
+export const URL_DEMONSTRATION = "/demo";
 
 /**
  * Adresse de contact affichée au pied de page.

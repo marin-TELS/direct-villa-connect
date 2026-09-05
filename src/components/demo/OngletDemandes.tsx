@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { DEMANDES, formatEuro, type Demande } from "./donnees";
 import {
   FormesLignes,
@@ -94,8 +92,6 @@ export function OngletDemandes({
   selection: string | null;
   onSelection: (cle: string | null) => void;
 }) {
-  const [survol] = useState(false);
-  void survol;
   const demande: Demande | null =
     DEMANDES.find((d) => d.cle === selection) ?? null;
 

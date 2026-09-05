@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
+import { Route as DemoRouteImport } from './routes/demo'
 import { Route as ReponseRouteImport } from './routes/reponse'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
   path: '/confidentialite',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoRoute = DemoRouteImport.update({
+  id: '/demo',
+  path: '/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReponseRoute = ReponseRouteImport.update({
   id: '/reponse',
   path: '/reponse',
@@ -32,30 +38,34 @@ const ReponseRoute = ReponseRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/confidentialite': typeof ConfidentialiteRoute
+  '/demo': typeof DemoRoute
   '/reponse': typeof ReponseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/confidentialite': typeof ConfidentialiteRoute
+  '/demo': typeof DemoRoute
   '/reponse': typeof ReponseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/confidentialite': typeof ConfidentialiteRoute
+  '/demo': typeof DemoRoute
   '/reponse': typeof ReponseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/confidentialite' | '/reponse'
+  fullPaths: '/' | '/confidentialite' | '/demo' | '/reponse'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/confidentialite' | '/reponse'
-  id: '__root__' | '/' | '/confidentialite' | '/reponse'
+  to: '/' | '/confidentialite' | '/demo' | '/reponse'
+  id: '__root__' | '/' | '/confidentialite' | '/demo' | '/reponse'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
+  DemoRoute: typeof DemoRoute
   ReponseRoute: typeof ReponseRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConfidentialiteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demo': {
+      id: '/demo'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof DemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reponse': {
       id: '/reponse'
       path: '/reponse'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
+  DemoRoute: DemoRoute,
   ReponseRoute: ReponseRoute,
 }
 export const routeTree = rootRouteImport

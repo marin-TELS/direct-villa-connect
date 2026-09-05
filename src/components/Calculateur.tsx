@@ -490,9 +490,8 @@ export function Calculateur() {
               <NombreAnime
                 valeur={formatMontant.format(Math.round(ecartDisponible))}
               />{" "}
-              de revenu disponible supplémentaire par an. À comparer aux{" "}
-              <span className="chiffre-dynamique">2 160 €</span> par an de
-              l’abonnement Présence.
+              de revenu disponible supplémentaire par an.
+
             </p>
           ) : null}
 

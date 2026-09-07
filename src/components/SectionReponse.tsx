@@ -1,6 +1,9 @@
 import { useApparition } from "../hooks/use-apparition";
 import { LigneSection } from "./LigneSection";
 import { Link } from "@tanstack/react-router";
+import { CadreNavigateur } from "./CadreNavigateur";
+import { MiniatureTableauBord } from "./MiniatureTableauBord";
+import { ApercuReservation } from "./ApercuReservation";
 
 const DEDANS = [
   {
@@ -57,6 +60,7 @@ export function SectionReponse() {
               qui fait le caractère de la vôtre doit se voir dès le premier
               écran.
             </p>
+            <ApercuReservation />
           </div>
 
           <div className="pos-bloc-b pile-texte mt-10 md:mt-16" data-apparition>
@@ -96,6 +100,9 @@ export function SectionReponse() {
               des captures d’écran : tout fonctionne, vous pouvez cliquer
               partout.
             </p>
+            <CadreNavigateur adresse="votre-maison.fr/espace">
+              <MiniatureTableauBord />
+            </CadreNavigateur>
             <div>
               <Link
                 to="/demo"

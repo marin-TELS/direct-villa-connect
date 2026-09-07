@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 
 type Lien = {
   libelle: string;
-  vers: "/" | "/reponse";
+  vers: "/" | "/reponse" | "/audit";
   ancre?: string;
 };
 
@@ -13,7 +13,7 @@ const liensNavigation: Lien[] = [
   { libelle: "Notre réponse", vers: "/reponse" },
   { libelle: "Méthode", vers: "/reponse", ancre: "methode" },
   { libelle: "Tarifs", vers: "/reponse", ancre: "tarifs" },
-  { libelle: "Audit", vers: "/reponse", ancre: "audit" },
+  { libelle: "Audit", vers: "/audit" },
   { libelle: "Questions", vers: "/reponse", ancre: "faq" },
 ];
 

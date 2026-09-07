@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 import { useApparition } from "../hooks/use-apparition";
 
 export function BandeAudit() {
@@ -83,6 +85,16 @@ export function BandeAudit() {
             <p className="t-corps-fort mt-6">
               Une analyse complète, un document daté, et le site remis à niveau.
             </p>
+          </div>
+
+          <div className="pos-bloc-b mt-12" data-apparition>
+            <Link
+              to="/reponse"
+              hash="contact"
+              className="bouton-principal inline-flex items-center"
+            >
+              Parlons de votre maison
+            </Link>
           </div>
         </div>
       </div>

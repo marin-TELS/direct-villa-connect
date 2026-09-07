@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 import { useApparition } from "../hooks/use-apparition";
 import { LigneSection } from "./LigneSection";
@@ -108,6 +109,16 @@ export function SectionFaq() {
                 </div>
               );
             })}
+          </div>
+
+          <div className="pos-bloc-b mt-12" data-apparition>
+            <Link
+              to="/reponse"
+              hash="contact"
+              className="bouton-contour inline-flex items-center"
+            >
+              Parlons de votre maison
+            </Link>
           </div>
         </div>
       </div>

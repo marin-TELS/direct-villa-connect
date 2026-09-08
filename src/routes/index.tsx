@@ -7,7 +7,6 @@ import { SectionPourquoi } from "../components/SectionPourquoi";
 import { SectionDiagramme } from "../components/SectionDiagramme";
 import { SectionSeuil } from "../components/SectionSeuil";
 import { SectionChiffres } from "../components/SectionChiffres";
-import { BandePhoto } from "../components/BandePhoto";
 
 const DESCRIPTION =
   "Le studio qui construit le canal de réservation directe des villas de location premium. Site sur mesure, espace de gestion, visibilité dans les réponses des IA.";
@@ -38,7 +37,6 @@ function PageAccueil() {
       <main>
         <BandeauOuverture />
         <SectionPourquoi />
-        <BandePhoto env="nuit" />
         <SectionDiagramme />
         <SectionChiffres />
         <SectionSeuil />

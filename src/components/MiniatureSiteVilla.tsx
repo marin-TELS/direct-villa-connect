@@ -14,9 +14,8 @@ export function MiniatureSiteVilla() {
       </div>
 
       <div className="mini-site-scene">
-        <div className="mini-site-aplat">
-          <span className="mini-site-mention">Emplacement photographie</span>
-        </div>
+        <div className="mini-site-aplat" />
+
 
         <div className="mini-site-encart">
           <p className="mini-encart-ligne">Du 12 au 19 juillet</p>

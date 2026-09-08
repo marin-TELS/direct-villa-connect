@@ -6,18 +6,34 @@ const CHIFFRES = [
   {
     montant: "18 445 €",
     libelle: "La commission d’une seule année, sur l’exemple ci-dessus",
+    taille: "est-grande",
+    duree: "9.4s",
+    retard: "0s",
+    amplitude: "9px",
   },
   {
     montant: "24,4 %",
     libelle: "Ce qu’elle représente de votre résultat d’exploitation",
+    taille: "est-petite",
+    duree: "7.3s",
+    retard: "-2.1s",
+    amplitude: "6px",
   },
   {
     montant: "35,5 %",
     libelle: "Ce qu’elle représente de votre revenu disponible",
+    taille: "est-grande",
+    duree: "10.6s",
+    retard: "-4.7s",
+    amplitude: "10px",
   },
   {
     montant: "7 747 €",
     libelle: "Ce que le direct libère chaque année, à nuits égales",
+    taille: "est-petite",
+    duree: "8.2s",
+    retard: "-6.3s",
+    amplitude: "7px",
   },
 ];
 
@@ -32,16 +48,32 @@ export function SectionChiffres() {
       className="section-ancree py-16 md:py-24"
     >
       <div className="conteneur">
-        <div className="rangee-chiffres" data-apparition>
-          {CHIFFRES.map((chiffre) => (
-            <div key={chiffre.montant} className="bloc-chiffre">
-              <p className="chiffre-montant">{chiffre.montant}</p>
-              <p className="t-mention chiffre-libelle">{chiffre.libelle}</p>
+        <div className="rangee-bulles">
+          {CHIFFRES.map((chiffre, i) => (
+            <div
+              key={chiffre.montant}
+              className={`bloc-bulle ${chiffre.taille}`}
+              data-apparition
+              style={{ transitionDelay: `${i * 120}ms` }}
+            >
+              <div
+                className="bulle-disque"
+                style={
+                  {
+                    "--duree-flottaison": chiffre.duree,
+                    "--retard-flottaison": chiffre.retard,
+                    "--amplitude-flottaison": chiffre.amplitude,
+                  } as React.CSSProperties
+                }
+              >
+                <span className="bulle-montant">{chiffre.montant}</span>
+              </div>
+              <p className="t-mention bulle-libelle">{chiffre.libelle}</p>
             </div>
           ))}
         </div>
 
-        <p className="t-mention mt-8" data-apparition>
+        <p className="t-mention mt-10" data-apparition>
           Tous ces chiffres viennent du calcul ci-dessus. Refaites-le avec les
           vôtres.
         </p>

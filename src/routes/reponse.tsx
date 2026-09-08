@@ -6,7 +6,6 @@ import { SectionReponse } from "../components/SectionReponse";
 import { SectionMethode } from "../components/SectionMethode";
 import { SectionTarifs } from "../components/SectionTarifs";
 import { RenvoiAudit } from "../components/RenvoiAudit";
-import { BandePhoto } from "../components/BandePhoto";
 import { SectionFaq } from "../components/SectionFaq";
 import { Cloture } from "../components/Cloture";
 import { PiedDePage } from "../components/PiedDePage";
@@ -39,7 +38,6 @@ function PageReponse() {
       <main className="entree-panneau">
         <SectionReponse />
         <SectionMethode />
-        <BandePhoto env="jour" />
         <SectionTarifs />
         <RenvoiAudit />
         <SectionFaq />

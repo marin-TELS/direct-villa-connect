@@ -1,9 +1,10 @@
 /**
  * Constantes partagées du site.
  * URL_DEMONSTRATION : adresse de l'espace de gestion de démonstration.
- * Valeur provisoire (aperçu du projet) en attendant l'adresse définitive.
+ * Valeur provisoire : elle sera remplacée par l'adresse publique définitive.
  */
-export const URL_DEMONSTRATION = "/demo";
+export const URL_DEMONSTRATION =
+  "https://id-preview--452869f8-134b-4a8d-b6b1-8bd54093ebd4.lovable.app";
 
 /**
  * Adresse de contact affichée au pied de page.

@@ -18,7 +18,7 @@ export function SectionSeuil() {
               </span>
             </p>
 
-            <div className="mt-12" data-apparition>
+            <div data-apparition style={{ marginTop: "40px" }}>
               <Link
                 to="/reponse"
                 className="bouton-principal inline-flex items-center"

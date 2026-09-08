@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
-import { Route as DemoRouteImport } from './routes/demo'
 import { Route as ReponseRouteImport } from './routes/reponse'
 
 const IndexRoute = IndexRouteImport.update({
@@ -30,11 +29,6 @@ const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
   path: '/confidentialite',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoRoute = DemoRouteImport.update({
-  id: '/demo',
-  path: '/demo',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ReponseRoute = ReponseRouteImport.update({
   id: '/reponse',
   path: '/reponse',
@@ -45,14 +39,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/confidentialite': typeof ConfidentialiteRoute
-  '/demo': typeof DemoRoute
   '/reponse': typeof ReponseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/confidentialite': typeof ConfidentialiteRoute
-  '/demo': typeof DemoRoute
   '/reponse': typeof ReponseRoute
 }
 export interface FileRoutesById {
@@ -60,22 +52,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/confidentialite': typeof ConfidentialiteRoute
-  '/demo': typeof DemoRoute
   '/reponse': typeof ReponseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/audit' | '/confidentialite' | '/demo' | '/reponse'
+  fullPaths: '/' | '/audit' | '/confidentialite' | '/reponse'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/audit' | '/confidentialite' | '/demo' | '/reponse'
-  id: '__root__' | '/' | '/audit' | '/confidentialite' | '/demo' | '/reponse'
+  to: '/' | '/audit' | '/confidentialite' | '/reponse'
+  id: '__root__' | '/' | '/audit' | '/confidentialite' | '/reponse'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditRoute: typeof AuditRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
-  DemoRoute: typeof DemoRoute
   ReponseRoute: typeof ReponseRoute
 }
 
@@ -102,13 +92,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConfidentialiteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo': {
-      id: '/demo'
-      path: '/demo'
-      fullPath: '/demo'
-      preLoaderRoute: typeof DemoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/reponse': {
       id: '/reponse'
       path: '/reponse'
@@ -123,7 +106,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
-  DemoRoute: DemoRoute,
   ReponseRoute: ReponseRoute,
 }
 export const routeTree = rootRouteImport

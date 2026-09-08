@@ -1850,6 +1850,10 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
 
 /* Section « Les chiffres » en bulles --------------------------------- */
 
+#chiffres {
+  background-color: var(--encre);
+}
+
 .rangee-bulles {
   display: flex;
   flex-wrap: wrap;

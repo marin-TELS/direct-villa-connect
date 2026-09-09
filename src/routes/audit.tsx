@@ -32,10 +32,10 @@ function PageAudit() {
   return (
     <>
       <Navigation />
-      <main className="entree-panneau page-audit" data-env="nuit-profonde">
+      <main className="entree-panneau page-audit" data-env="signal">
         <BandeAudit />
       </main>
-      <PiedDePage />
+      <PiedDePage environnement="signal" />
     </>
   );
 }

@@ -1769,3 +1769,46 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
 
 
 
+
+/* ------------------------------------------------------------------ */
+/* Passe 9 : environnement « signal », propre à la page /audit          */
+/* ------------------------------------------------------------------ */
+
+html[data-env-page="signal"] {
+  --fond-page: #05070a;
+}
+
+[data-env="signal"],
+html[data-env-page="signal"] .nav-principale,
+html[data-env-page="signal"] .panneau-mobile {
+  --encre: #05070a;
+  --encre-2: #05070a;
+  --encre-3: #0a1014;
+  --craie: #e8f4f1;
+  --craie-2: #7e9a94;
+  --craie-3: #7e9a94;
+  --filet: rgba(61, 224, 192, 0.14);
+  --filet-fort: rgba(61, 224, 192, 0.3);
+  --signal: #3de0c0;
+  --signal-clair: #6debd5;
+  --alerte: #3de0c0; /* aucun rouge sur cette page */
+  color: var(--craie);
+}
+
+html[data-env-page="signal"] .nav-principale.est-scrollee {
+  background-color: rgba(5, 7, 10, 0.86);
+}
+
+/* Boutons principaux de la page : fond turquoise, texte très sombre */
+[data-env="signal"] .bouton-principal {
+  background-color: #2ab79e;
+  color: #05070a;
+}
+
+[data-env="signal"] .bouton-principal:hover {
+  background-color: #6debd5;
+}
+
+[data-env="signal"] .montant-audit {
+  color: var(--signal);
+}

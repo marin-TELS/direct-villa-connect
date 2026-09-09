@@ -76,14 +76,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Le studio qui construit le canal de réservation directe des villas de location premium. Site sur mesure, espace de gestion, visibilité sur les assistants conversationnels.",
+          "Le studio qui construit le canal de réservation directe des villas de location premium. Site sur mesure, espace de gestion, visibilité dans les réponses des IA.",
       },
       { name: "author", content: "Demeure — studio" },
       { property: "og:title", content: "Demeure — studio" },
       {
         property: "og:description",
         content:
-          "Le studio qui construit le canal de réservation directe des villas de location premium. Site sur mesure, espace de gestion, visibilité sur les assistants conversationnels.",
+          "Le studio qui construit le canal de réservation directe des villas de location premium. Site sur mesure, espace de gestion, visibilité dans les réponses des IA.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "fr_FR" },

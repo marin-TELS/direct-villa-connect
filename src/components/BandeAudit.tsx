@@ -13,10 +13,11 @@ export function BandeAudit() {
             L’audit de visibilité IA
           </p>
 
-          <h2 className="t-section pos-titre-section mt-6" data-apparition>
+          <h1 className="t-section pos-titre-section mt-6" data-apparition>
             Une autre villa est recommandée à votre place. Vous ne savez pas
             laquelle.
-          </h2>
+          </h1>
+
 
           <div className="pos-bloc-a pile-texte mt-10" data-apparition>
             <p className="t-corps">

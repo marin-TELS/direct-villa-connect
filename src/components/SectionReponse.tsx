@@ -34,9 +34,10 @@ export function SectionReponse() {
         <div className="grille-12">
           <LigneSection numero="03" libelle="Notre réponse" />
 
-          <h2 className="t-section pos-titre-section mt-8" data-apparition>
+          <h1 className="t-section pos-titre-section mt-8" data-apparition>
             Un site qui capte vos clients, un système qui les gère
-          </h2>
+          </h1>
+
 
           <div className="pos-bloc-a pile-texte mt-10 md:mt-16" data-apparition>
             <h3 className="t-bloc">Un site qui travaille</h3>

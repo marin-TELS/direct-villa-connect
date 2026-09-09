@@ -1,8 +1,12 @@
 import { EMAIL_CONTACT } from "../lib/constantes";
 
-export function PiedDePage() {
+export function PiedDePage({
+  environnement = "jour",
+}: {
+  environnement?: "jour" | "signal";
+} = {}) {
   return (
-    <footer className="pied-de-page" data-env="jour">
+    <footer className="pied-de-page" data-env={environnement}>
       <div className="conteneur">
         <div className="grille-12">
           <div className="pos-bloc-a">

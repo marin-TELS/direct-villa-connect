@@ -1,6 +1,4 @@
 import { useApparition } from "../hooks/use-apparition";
-import { CadreNavigateur } from "./CadreNavigateur";
-import { MiniatureSiteVilla } from "./MiniatureSiteVilla";
 
 export function BandeauOuverture() {
   const ref = useApparition<HTMLElement>();
@@ -36,11 +34,6 @@ export function BandeauOuverture() {
           </div>
         </div>
 
-        <div className="pos-bandeau-visuel" data-apparition>
-          <CadreNavigateur adresse="mas-des-oliviers.fr" className="cadre-bandeau">
-            <MiniatureSiteVilla />
-          </CadreNavigateur>
-        </div>
       </div>
 
       <div className="indice-defilement" data-apparition>

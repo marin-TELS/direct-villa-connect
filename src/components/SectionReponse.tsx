@@ -1,9 +1,6 @@
 import { useApparition } from "../hooks/use-apparition";
 import { LigneSection } from "./LigneSection";
 import { Link } from "@tanstack/react-router";
-import { CadreNavigateur } from "./CadreNavigateur";
-import { MiniatureTableauBord } from "./MiniatureTableauBord";
-import { ApercuReservation } from "./ApercuReservation";
 
 const DEDANS = [
   {

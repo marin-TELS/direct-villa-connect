@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 
 import { useApparition } from "../hooks/use-apparition";
+import { LigneSection } from "./LigneSection";
+
 
 const CHIFFRES = [
   {
@@ -48,7 +50,15 @@ export function SectionChiffres() {
       className="section-ancree py-16 md:py-24"
     >
       <div className="conteneur">
-        <div className="rangee-bulles">
+        <div className="grille-12">
+          <LigneSection libelle="Les chiffres" />
+          <h2 className="t-section pos-titre-section mt-6" data-apparition>
+            Les chiffres
+          </h2>
+        </div>
+
+        <div className="rangee-bulles mt-10 md:mt-16">
+
           {CHIFFRES.map((chiffre, i) => (
             <div
               key={chiffre.montant}

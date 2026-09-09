@@ -1,5 +1,5 @@
 interface LigneSectionProps {
-  numero: string;
+  numero?: string;
   libelle: string;
 }
 
@@ -10,12 +10,17 @@ interface LigneSectionProps {
 export function LigneSection({ numero, libelle }: LigneSectionProps) {
   return (
     <div className="ligne-section" data-apparition>
-      <span className="numero-section">{numero}</span>
-      <span className="point-median" aria-hidden="true">
-        ·
-      </span>
+      {numero ? (
+        <>
+          <span className="numero-section">{numero}</span>
+          <span className="point-median" aria-hidden="true">
+            ·
+          </span>
+        </>
+      ) : null}
       <span className="t-libelle">{libelle}</span>
       <span className="filet" aria-hidden="true" />
     </div>
   );
 }
+

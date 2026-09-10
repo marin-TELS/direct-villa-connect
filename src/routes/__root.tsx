@@ -11,7 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { FondAnime } from "../components/FondAnime";
+import { SceneFond } from "../components/SceneFond";
 
 
 function NotFoundComponent() {
@@ -132,7 +132,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <FondAnime />
+      <SceneFond />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>

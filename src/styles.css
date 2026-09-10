@@ -1817,3 +1817,77 @@ html[data-env-page="signal"] .nav-principale.est-scrollee {
 [data-env="signal"] .montant-audit {
   color: var(--signal);
 }
+
+/* Fond en trois dimensions : ajustements propres à la page /audit */
+
+[data-env="signal"] .t-section,
+[data-env="signal"] h1,
+[data-env="signal"] .t-bloc {
+  color: var(--signal-clair);
+}
+
+[data-env="signal"] .t-libelle {
+  color: var(--signal);
+}
+
+[data-env="signal"] .accent-audit {
+  color: var(--signal-clair);
+  font-weight: 500;
+}
+
+[data-env="signal"] .ligne-section-filet,
+[data-env="signal"] hr {
+  background-color: var(--filet-fort);
+}
+
+/* Le bloc de verdict : un aplat turquoise très sombre, cerné d'un filet
+   franc. C'est lui qui fait basculer la page dans un autre monde. */
+[data-env="signal"] .pos-bloc-a.pile-texte {
+  background-color: rgba(61, 224, 192, 0.06);
+  border-left: 2px solid var(--signal);
+  padding: 32px 40px 32px 28px;
+}
+
+@media (min-width: 768px) {
+  /* L'encadré de verdict prend la largeur : la scène animée occupe la droite. */
+  [data-env="signal"] .pos-bloc-a.pile-texte {
+    grid-column: 1 / 10;
+  }
+
+  [data-env="signal"] .pos-bloc-a.pile-texte .t-corps {
+    max-width: 46em;
+  }
+}
+
+[data-env="signal"] .montant-audit {
+  color: var(--signal-clair);
+}
+
+[data-env="signal"] .t-corps-fort {
+  color: var(--craie);
+}
+
+/* Le corps de texte reste en blanc cassé : seuls les titres sont turquoise. */
+[data-env="signal"] .t-corps,
+[data-env="signal"] p,
+[data-env="signal"] li,
+[data-env="signal"] .pile-texte p {
+  color: var(--craie);
+}
+
+/* Sur la page /audit, la bande occupe tout l'écran : elle doit laisser
+   passer le fond en trois dimensions, que le corps de page peint déjà. */
+html[data-env-page="signal"] .bande-audit {
+  background-color: transparent;
+  border-top: 0;
+}
+
+/* Le relief s'efface vers le bas, là où commence la lecture en colonnes. */
+html[data-env-page="signal"] .scene-fond {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 34%, rgba(0, 0, 0, 0.3) 62%, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 34%, rgba(0, 0, 0, 0.3) 62%, transparent 88%);
+}
+
+[data-env="signal"] .t-mention {
+  color: #b9cfca;
+}

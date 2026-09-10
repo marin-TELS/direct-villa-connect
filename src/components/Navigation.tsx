@@ -11,10 +11,7 @@ const liensNavigation: Lien[] = [
   { libelle: "Pourquoi", vers: "/", ancre: "pourquoi" },
   { libelle: "Le calcul", vers: "/", ancre: "diagramme" },
   { libelle: "Notre réponse", vers: "/reponse" },
-  { libelle: "Méthode", vers: "/reponse", ancre: "methode" },
-  { libelle: "Tarifs", vers: "/reponse", ancre: "tarifs" },
-  { libelle: "Audit", vers: "/audit" },
-  { libelle: "Questions", vers: "/reponse", ancre: "faq" },
+  { libelle: "L’audit", vers: "/audit" },
 ];
 
 const liensMobile: Lien[] = [

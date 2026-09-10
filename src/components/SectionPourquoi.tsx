@@ -33,6 +33,9 @@ export function SectionPourquoi() {
               n’écrivez pas les règles peut se refermer, ou se renchérir, sans
               vous demander votre avis.
             </p>
+          </div>
+
+          <div className="pos-face-droite" data-apparition>
             <BandeauSignal />
           </div>
 

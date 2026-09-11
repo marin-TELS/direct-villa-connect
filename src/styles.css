@@ -192,7 +192,7 @@
   font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
   line-height: 1.65;
   color: var(--craie-2);
-  max-width: 34em; /* jamais plus de 68 caractères par ligne */
+  max-width: 38em; /* environ 76 caractères par ligne */
 }
 
 .t-corps-fort {
@@ -258,23 +258,37 @@
   }
 
   .pos-bandeau {
-    grid-column: 1 / 10; /* colonnes 1 à 9 */
+    grid-column: 1 / 11; /* colonnes 1 à 10 */
   }
 
   .pos-titre-section {
-    grid-column: 1 / 9; /* colonnes 1 à 8 */
+    grid-column: 1 / 10; /* colonnes 1 à 9 */
   }
 
+  /* Les deux blocs partagent la même rangée : aucune colonne commune,
+     et un décalage vertical qui empêche la lecture en deux colonnes plates. */
   .pos-bloc-a {
     grid-column: 1 / 7; /* colonnes 1 à 6 */
   }
 
   .pos-bloc-b {
-    grid-column: 4 / 11; /* colonnes 4 à 10, décalé vers la droite */
+    grid-column: 7 / 13; /* colonnes 7 à 12 */
+    padding-top: 14vh;
   }
 
   .pos-encart {
     grid-column: 9 / 13; /* colonnes 9 à 12 */
+    align-self: start;
+  }
+
+  /* Colonne en vis-à-vis : occupe le vide laissé par le bloc opposé */
+  .pos-face-droite {
+    grid-column: 9 / 13;
+    align-self: start;
+  }
+
+  .pos-face-gauche {
+    grid-column: 1 / 5;
     align-self: start;
   }
 }
@@ -639,11 +653,12 @@
 
 @media (min-width: 768px) {
   .pos-chapo {
-    grid-column: 4 / 11;
+    grid-column: 6 / 13;
   }
 
   .pos-notes {
-    grid-column: 9 / 13;
+    grid-column: 8 / 13;
+    padding-top: 10vh;
   }
 
   .pos-etapes {
@@ -1512,11 +1527,81 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
 /* ------------------------------------------------------------------ */
 
 .seuil {
-  min-height: 70vh;
+  min-height: 78vh;
   display: flex;
   align-items: center;
   border-top: 1px solid var(--filet);
-  border-bottom: 1px solid var(--filet);
+  padding-block: 80px;
+}
+
+/* La porte : la page ne se termine pas, elle s'ouvre. Pleine largeur,
+   le laiton monte du bas au survol, la flèche avance. */
+.porte {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 72px;
+  padding: 34px 32px;
+  border: 1px solid var(--filet-fort);
+  overflow: hidden;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.porte::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--signal);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 520ms var(--courbe);
+}
+
+.porte:hover::before,
+.porte:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.porte-libelle {
+  font-family: var(--font-titres);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--craie);
+  transition: color 320ms var(--courbe);
+}
+
+.porte-fleche {
+  flex: none;
+  width: 84px;
+  height: 1px;
+  background-color: var(--craie-3);
+  transition:
+    width 520ms var(--courbe),
+    background-color 320ms var(--courbe);
+}
+
+.porte:hover .porte-libelle,
+.porte:focus-visible .porte-libelle {
+  color: var(--encre);
+}
+
+.porte:hover .porte-fleche,
+.porte:focus-visible .porte-fleche {
+  width: 132px;
+  background-color: var(--encre);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .porte::before,
+  .porte-fleche {
+    transition: none;
+  }
 }
 
 .seuil-bloc {
@@ -1536,7 +1621,7 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
 
 @media (min-width: 1024px) {
   .seuil-bloc {
-    grid-column: 1 / span 7;
+    grid-column: 1 / span 8;
   }
 }
 
@@ -1654,87 +1739,93 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
 
 
 
-/* Section « Les chiffres » en bulles --------------------------------- */
+/* Section « Les chiffres » : carrés suspendus ------------------------ */
 
-#chiffres {
-  background-color: var(--encre);
-}
-
-.rangee-bulles {
+.rangee-carres {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 32px 48px;
+  perspective: 900px;
 }
 
-.bloc-bulle {
+.bloc-carre {
   width: 200px;
 }
 
-.bloc-bulle:nth-child(2) {
+.bloc-carre:nth-child(2) {
   margin-top: 56px;
 }
 
-.bloc-bulle:nth-child(3) {
+.bloc-carre:nth-child(3) {
   margin-top: 12px;
 }
 
-.bloc-bulle:nth-child(4) {
+.bloc-carre:nth-child(4) {
   margin-top: 72px;
 }
 
 @media (min-width: 1024px) {
-  .rangee-bulles {
+  .rangee-carres {
     flex-wrap: nowrap;
     gap: 0 40px;
   }
 
-  .bloc-bulle:nth-child(2) {
+  .bloc-carre:nth-child(2) {
     margin-top: 88px;
   }
 
-  .bloc-bulle:nth-child(4) {
+  .bloc-carre:nth-child(4) {
     margin-top: 104px;
   }
 }
 
-.bulle-disque {
+/* Le carré est suspendu : il flotte en continu, et dérive vers la souris.
+   Deux couches : le flottement sur l'enveloppe, la réaction sur le carré. */
+.carre-suspendu {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   border: 1px solid #c9a063;
   background-color: rgba(244, 242, 237, 0.03);
-  transition:
-    transform 300ms var(--courbe),
-    border-color 300ms var(--courbe);
+  transform: translate3d(var(--decal-x, 0px), var(--decal-y, 0px), 0)
+    rotate(var(--pivot, 0deg));
+  transition: border-color 300ms var(--courbe);
+  will-change: transform;
+}
+
+.bloc-carre.est-grand .carre-suspendu {
+  width: 168px;
+  height: 168px;
+}
+
+.bloc-carre.est-petit .carre-suspendu {
+  width: 128px;
+  height: 128px;
+}
+
+.bloc-carre {
   animation: flottaison var(--duree-flottaison, 9s) ease-in-out
     var(--retard-flottaison, 0s) infinite;
 }
 
-.bloc-bulle.est-grande .bulle-disque {
-  width: 176px;
-  height: 176px;
+.rangee-carres:hover .carre-suspendu {
+  border-color: rgba(201, 160, 99, 0.55);
 }
 
-.bloc-bulle.est-petite .bulle-disque {
-  width: 132px;
-  height: 132px;
-}
-
-.bulle-disque:hover {
+.carre-suspendu:hover {
   border-color: #d9b380;
-  transform: scale(1.02);
 }
 
-.bulle-montant {
+.carre-montant {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-size: clamp(1.25rem, 2vw, 1.6rem);
   color: var(--craie);
 }
 
-.bulle-libelle {
+.carre-libelle {
   margin-top: 16px;
   text-align: left;
   max-width: 18em;
@@ -1747,6 +1838,16 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
   }
   50% {
     transform: translateY(calc(-1 * var(--amplitude-flottaison, 8px)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bloc-carre {
+    animation: none !important;
+  }
+
+  .carre-suspendu {
+    transform: none !important;
   }
 }
 
@@ -1766,11 +1867,6 @@ html[data-env-page="nuit-profonde"] .nav-principale.est-scrollee {
   .scene-fond { display: none; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bulle-disque {
-    animation: none !important;
-  }
-}
 
 
 
